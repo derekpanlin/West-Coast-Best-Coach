@@ -8,6 +8,18 @@ def seed_all_bookings():
     coach_derek = Coach.query.filter_by(first_name='Derek', last_name='Lin').first()
     
     if demo_user and coach_derek:
+        # Past booking
+        booking_demo_past = Booking(
+            user_id=demo_user.id,
+            coach_id=coach_derek.id,
+            location=coach_derek.location,
+            booking_date=datetime.strptime('2024-08-01', '%Y-%m-%d').date(),
+            start_time='09:00',
+            end_time='10:00'
+        )
+        db.session.add(booking_demo_past)
+        
+        #Future booking
         booking_demo = Booking(
             user_id=demo_user.id,
             coach_id=coach_derek.id,
