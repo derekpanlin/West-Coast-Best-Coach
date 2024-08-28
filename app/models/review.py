@@ -18,15 +18,15 @@ class Review(db.Model):
     user = db.relationship('User', back_populates='reviews')
     coach = db.relationship('Coach', back_populates='reviews')    
 
-def to_dict(self):
-    return {
-        'id': self.id,
-        'user_id': self.user_id,
-        'coach_id': self.coach_id,
-        'rating': self.rating,
-        'comment': self.comment,
-        'created_at': self.created_at,
-        'updated_at': self.updated_at,
-        'user': self.user.to_dict(),  # Include user details
-        'coach': self.coach.to_dict()  # Include coach details
-    }
+    def to_dict(self):
+        return {
+            'id': self.id,
+            'user_id': self.user_id,
+            'coach_id': self.coach_id,
+            'rating': self.rating,
+            'comment': self.comment,
+            'created_at': self.created_at,
+            'updated_at': self.updated_at,
+            'user': self.user.to_dict(),  # Include user details
+            'coach': self.coach.to_dict()  # Include coach details
+        }

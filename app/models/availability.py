@@ -9,8 +9,8 @@ class Availability(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     coach_id = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod('coaches.id')), nullable=False)
     day_of_week = db.Column(db.String(50), nullable=False)
-    start_time = db.Column(db.Time, nullable=False)
-    end_time = db.Column(db.Time, nullable=False)
+    start_time = db.Column(db.String(5), nullable=False)
+    end_time = db.Column(db.String(5), nullable=False)
 
     # Relationships
     coach = db.relationship('Coach', back_populates='availability')
