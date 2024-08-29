@@ -33,7 +33,7 @@ booking_routes = Blueprint('bookings', __name__)
 	•	Response: Confirms that the booking was deleted.
     
 """
-# Create a booking (POST)
+# CREATE A BOOKING (POST)
 @booking_routes.route('/', methods=['POST'])
 @login_required
 def create_booking():
@@ -90,3 +90,12 @@ def create_booking():
     
     return new_booking.to_dict(), 201
     
+# GET ALL BOOKINGS (GET)
+@booking_routes.route('/')
+@login_required
+def get_all_bookings():
+    """
+    Get all bookings for the current logged-in user
+    """
+    bookings = Booking.query.filter_by(user_id=current_user.id).all()
+    return {'bookings': [booking.to_dict() for booking in bookings]}, 200
