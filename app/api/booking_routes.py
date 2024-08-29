@@ -52,7 +52,7 @@ def create_booking():
     start_time = data['start_time']
     end_time = data['end_time']
     
-    # Extract the day of the week from datetime object (Ex: Monday, Tuesday...
+    # Extract the day of the week from datetime object (Ex: Monday, Tuesday...)
     day_of_week = booking_date.strftime('%A')
     
     # Check if coach is available for that day
@@ -113,5 +113,50 @@ def get_booking(id):
     
     return booking.to_dict(), 200
 
-
+# UPDATE A SPECIFIC BOOKING (PUT /api/bookings/<int:id>)
+@booking_routes.route('/<int:id>', methods=['PUT'])
+@login_required
+def update_booking(id):
+    """
+    Update a booking when logged in
+    """
+    booking = Booking.query.get(id)
+    if not booking or booking.user_id != current_user.id:
+        return {'errors': 'Booking not found or you do not have permission to update this booking'}, 404
     
+    data = request.get_json()
+    
+    booking_date = datetime.strptime(data['booking_date'], '%Y-%m-%d').date()
+    start_time = data['start_time']
+    end_time = data['end_time']
+    
+    day_of_week = booking_date.strftime('%A')
+    
+    # Validation check for availability for that day of the week
+    availability = Availability.query.filter_by(coach_id=booking.coach_id, day_of_week=day_of_week).first()
+    if not availability:
+        return {'errors': f'The coach is not available on {day_of_week}s'}, 400
+    
+    # Validation check for booking time fitting within coach's available time slot
+    if not (availability.start_time <= start_time < availability.end_time and
+            availability.start_time < end_time <= availability.end_time):
+        return {'errors': 'The booking time is outside of the coach\'s available hours'}, 400
+    
+    # Validation to check if booking overlaps with existing booking except itself
+    existing_booking = Booking.query.filter_by(coach_id=booking.coach_id, booking_date=booking_date).filter(
+        db.or_(
+            db.and_(Booking.start_time <= start_time, Booking.end_time > start_time),
+            db.and_(Booking.start_time < end_time, Booking.end_time >= end_time)
+        )
+    ).filter(Booking.id != id).first()
+    
+    if existing_booking:
+        return {'errors': 'This time slot is already booked'}, 400
+    
+    booking.booking_date = booking_date
+    booking.start_time = start_time
+    booking.end_time = end_time
+    
+    db.session.commit()
+    
+    return booking.to_dict(), 200
