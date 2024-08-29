@@ -160,3 +160,20 @@ def update_booking(id):
     db.session.commit()
     
     return booking.to_dict(), 200
+
+# DELETE A BOOKING (DELETE /api/bookings/<int:id>)
+@booking_routes.route('/<int:id>', methods=['DELETE'])
+@login_required
+def delete_booking(id):
+    """
+    Delete a booking by its ID
+    """
+    
+    booking = Booking.query.get(id)
+    if not booking or booking.user_id != current_user.id:
+        return {'errors': 'Booking not found or you do not have permission to delete this booking'}, 404
+        
+    db.session.delete(booking)
+    db.session.commit()
+    
+    return {'message': 'Booking has been successfully deleted'}, 200
