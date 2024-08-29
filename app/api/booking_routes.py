@@ -33,7 +33,7 @@ booking_routes = Blueprint('bookings', __name__)
 	•	Response: Confirms that the booking was deleted.
     
 """
-# CREATE A BOOKING (POST)
+# CREATE A BOOKING (POST /api/bookings)
 @booking_routes.route('/', methods=['POST'])
 @login_required
 def create_booking():
@@ -90,7 +90,7 @@ def create_booking():
     
     return new_booking.to_dict(), 201
     
-# GET ALL BOOKINGS (GET)
+# GET ALL BOOKINGS (GET /api/bookings)
 @booking_routes.route('/')
 @login_required
 def get_all_bookings():
@@ -99,3 +99,19 @@ def get_all_bookings():
     """
     bookings = Booking.query.filter_by(user_id=current_user.id).all()
     return {'bookings': [booking.to_dict() for booking in bookings]}, 200
+
+# GET A SPECIFIC BOOKING (GET /api/bookings/<int:id>)
+@booking_routes.route('/<int:id>')
+@login_required
+def get_booking(id):
+    """
+    Get a specific booking by its ID
+    """
+    booking = Booking.query.get(id)
+    if not booking or booking.user_id != current_user.id:
+        return {'errors': 'Booking not found or you do not have permission to view this booking'}, 404
+    
+    return booking.to_dict(), 200
+
+
+    
