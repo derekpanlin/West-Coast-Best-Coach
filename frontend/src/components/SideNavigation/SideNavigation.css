@@ -1,0 +1,12 @@
+.sidebar {
+    width: 200px;
+    background-color: #f1f3f5;
+    border-right: 1px solid #dee2e6;
+    height: 100vh;
+}
+
+.sidebar ul li a:hover,
+.sidebar ul li a.active {
+    color: #0056b3;
+    font-weight: bold;
+}

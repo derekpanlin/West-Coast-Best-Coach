@@ -1,3 +1,112 @@
+/* Navigation.css */
+
+.nav-container {
+  width: 100%;
+  background-color: #f8f9fa;
+  border-bottom: 1px solid #dee2e6;
+  padding: 10px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-sizing: border-box;
+}
+
+.nav-list {
+  list-style: none;
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+.nav-item {
+  display: flex;
+  align-items: center;
+}
+
+.nav-link {
+  text-decoration: none;
+  color: #265486;
+  font-weight: bold;
+}
+
+.nav-link:hover {
+  color: #121921;
+}
+
+
+.profile-button {
+  position: relative;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  padding: 12px;
+  font-size: 1.4em;
+  border-radius: 8px;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+
 .profile-dropdown {
   position: absolute;
+  top: 100%;
+  right: 0;
+  background-color: white;
+  border: 1px solid #dee2e6;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  width: 15rem;
+  z-index: 1000;
+  padding: 0;
+}
+
+.profile-dropdown li {
+  padding: 10px 20px;
+  list-style: none;
+  color: #2c3e50;
+  transition: background-color 0.3s ease;
+  white-space: nowrap;
+  /* Prevent text from wrapping to the next line */
+  overflow: hidden;
+  /* Hide overflow text */
+  text-overflow: ellipsis;
+  /* Display ellipsis (...) if text is too long */
+}
+
+.profile-dropdown li.username,
+.profile-dropdown li.email {
+  font-size: 1rem;
+  /* Set a base font size */
+  max-width: 100%;
+  /* Ensure it doesn't exceed the dropdown's width */
+}
+
+
+.profile-dropdown li:hover {
+  background-color: #f1f3f5;
+}
+
+.open-modal-menu-item {
+  padding: 10px 20px;
+  cursor: pointer;
+  font-size: 1rem;
+  color: #2c3e50;
+  transition: background-color 0.3s ease;
+}
+
+.open-modal-menu-item:hover {
+  background-color: #f1f3f5;
+}
+
+.menu-item-text {
+  display: inline-block;
+  width: 100%;
+  text-align: left;
+  /* Ensure text is aligned to the left */
+}
+
+#profile-logout-button {
+  color: white;
+  background-color: rgb(234, 54, 54);
 }
