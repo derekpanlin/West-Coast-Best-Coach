@@ -13,7 +13,7 @@ def seed_all_bookings():
             user_id=demo_user.id,
             coach_id=coach_derek.id,
             location=coach_derek.location,
-            booking_date=datetime.strptime('2024-08-01', '%Y-%m-%d').date(),
+            booking_date=datetime.strptime('2024-08-05', '%Y-%m-%d').date(),
             start_time='09:00',
             end_time='10:00'
         )
@@ -24,7 +24,7 @@ def seed_all_bookings():
             user_id=demo_user.id,
             coach_id=coach_derek.id,
             location=coach_derek.location,
-            booking_date=datetime.strptime('2024-12-01', '%Y-%m-%d').date(),
+            booking_date=datetime.strptime('2024-12-03', '%Y-%m-%d').date(),
             start_time='08:00',
             end_time='09:00'
         )

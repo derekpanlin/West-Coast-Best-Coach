@@ -28,7 +28,8 @@ class Booking(db.Model):
             'user_id': self.user_id,
             'coach_id': self.coach_id,
             'location': self.location,
-            'booking_date': self.booking_date,
+            'booking_date': self.booking_date.strftime('%Y-%m-%d'),  # Format the date as YYYY-MM-DD
+            'day_of_week': self.booking_date.strftime('%A'),  # Include the day of the week
             'start_time': self.start_time,
             'end_time': self.end_time,
             'created_at': self.created_at,
