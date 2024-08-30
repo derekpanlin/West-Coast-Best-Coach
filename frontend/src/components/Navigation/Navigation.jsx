@@ -7,10 +7,10 @@ function Navigation() {
     <nav className="nav-container">
       <ul className="nav-list">
         <li className="nav-item">
-          <NavLink to="/" className="nav-link">West Coast Best Coach</NavLink>
+          <NavLink to="/" className="home-link">West Coast Best Coach</NavLink>
         </li>
         <li className="nav-item">
-          <NavLink to="/find-a-coach" className="nav-link find-a-coach-button">
+          <NavLink to="/find-a-coach" className="find-a-coach-button">
             Find a Coach!
           </NavLink>
         </li>
