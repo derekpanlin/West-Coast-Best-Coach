@@ -4,23 +4,25 @@
     align-items: center;
     height: 100%;
     text-align: center;
-    /* Center-align the text */
     padding: 20px;
-    /* Add some padding for spacing */
-    font-family: 'Arial', sans-serif;
-    /* Use this font for all other fonts! */
+    font-family: 'Inter', sans-serif;
+    /* Apply Inter font for all text */
 }
 
 .landingpage-header {
     max-width: 800px;
-    /* Limit the width for better readability */
+    text-decoration: none;
+    color: #265486;
+    font-weight: 300;
+    font-family: 'Inter', sans-serif;
+    /* Apply Inter font with light weight */
 }
 
 .landingpage-header h1 {
     font-size: 3rem;
-    font-weight: bold;
+    font-weight: 300;
+    /* Use light weight for h1 */
     margin-bottom: 10px;
-    /* Add some space below the title */
     color: #2c3e50;
 }
 
@@ -32,15 +34,12 @@
     line-height: 1.4;
 }
 
-
 @media (max-width: 768px) {
     .landingpage-header h1 {
         font-size: 2.5rem;
-        /* Slightly smaller on smaller screens */
     }
 
     .landingpage-header h2 {
         font-size: 1.25rem;
-        /* Adjust subtitle size for smaller screens */
     }
 }

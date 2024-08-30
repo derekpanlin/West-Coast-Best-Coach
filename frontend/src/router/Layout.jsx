@@ -3,9 +3,9 @@ import { Outlet } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { ModalProvider, Modal } from "../context/Modal";
 import { thunkAuthenticate } from "../redux/session";
+import SideNavigation from "../components/SideNavigation";
 import Navigation from "../components/Navigation/Navigation";
-import SideNavigation from "../components/SideNavigation/SideNavigation";
-import "./Layout.css"
+import "./Layout.css"; // Import the CSS file
 
 export default function Layout() {
   const dispatch = useDispatch();
@@ -20,12 +20,12 @@ export default function Layout() {
     <>
       <ModalProvider>
         <Navigation />
-        {isLoaded && (
-          <>
-            {sessionUser && <SideNavigation />} {/* Render SideNavigation if the user is logged in */}
-            <Outlet />
-          </>
-        )}
+        <div className="layout-container">
+          {isLoaded && sessionUser && <SideNavigation />}
+          <main className="main-content">
+            {isLoaded && <Outlet />}
+          </main>
+        </div>
         <Modal />
       </ModalProvider>
     </>

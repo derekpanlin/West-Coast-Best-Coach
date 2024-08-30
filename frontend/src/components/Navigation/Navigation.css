@@ -28,7 +28,10 @@
 .nav-link {
   text-decoration: none;
   color: #265486;
-  font-weight: bold;
+  font-weight: 300;
+  /* Light weight */
+  font-family: 'Inter', sans-serif;
+  /* Apply Inter font */
 }
 
 .nav-link:hover {
@@ -77,14 +80,16 @@
 .profile-dropdown li.username,
 .profile-dropdown li.email {
   font-size: 1rem;
-  /* Set a base font size */
   max-width: 100%;
-  /* Ensure it doesn't exceed the dropdown's width */
+  cursor: default;
+  background-color: transparent;
+
 }
 
 
 .profile-dropdown li:hover {
-  background-color: #f1f3f5;
+  background-color: transparent;
+  /* No hover background change */
 }
 
 .open-modal-menu-item {
