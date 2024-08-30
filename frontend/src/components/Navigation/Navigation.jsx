@@ -9,6 +9,11 @@ function Navigation() {
         <li className="nav-item">
           <NavLink to="/" className="nav-link">West Coast Best Coach</NavLink>
         </li>
+        <li className="nav-item">
+          <NavLink to="/find-a-coach" className="nav-link find-a-coach-button">
+            Find a Coach!
+          </NavLink>
+        </li>
         <li className="nav-item profile-button">
           <ProfileButton />
         </li>

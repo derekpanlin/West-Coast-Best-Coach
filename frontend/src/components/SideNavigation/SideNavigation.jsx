@@ -4,7 +4,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useEffect, useState } from 'react';
 
 
-
 function SideNavigation() {
     return (<>
         <nav className='sidebar'>

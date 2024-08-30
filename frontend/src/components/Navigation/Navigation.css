@@ -2,7 +2,7 @@
 
 .nav-container {
   width: 100%;
-  background-color: #f8f9fa;
+  background-color: #3b8ddf;
   border-bottom: 1px solid #dee2e6;
   padding: 10px 20px;
   display: flex;
@@ -11,6 +11,7 @@
   box-sizing: border-box;
 }
 
+/* List styles for the navigation */
 .nav-list {
   list-style: none;
   display: flex;
@@ -29,16 +30,31 @@
   text-decoration: none;
   color: #265486;
   font-weight: 300;
-  /* Light weight */
   font-family: 'Inter', sans-serif;
-  /* Apply Inter font */
 }
 
-.nav-link:hover {
-  color: #121921;
+/* Find a Coach button styles */
+.find-a-coach-button {
+  background-color: #265486;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 5px;
+  text-decoration: none;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+  font-family: 'Arial', sans-serif;
+  /* Override with a different font */
 }
 
+.find-a-coach-button:hover {
+  background-color: #1c3b6d;
+}
 
+.find-a-coach-button:active {
+  background-color: #162f5a;
+}
+
+/* Profile button styles */
 .profile-button {
   position: relative;
   display: flex;
@@ -50,7 +66,7 @@
   transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-
+/* Profile dropdown styles */
 .profile-dropdown {
   position: absolute;
   top: 100%;
@@ -70,28 +86,22 @@
   color: #2c3e50;
   transition: background-color 0.3s ease;
   white-space: nowrap;
-  /* Prevent text from wrapping to the next line */
   overflow: hidden;
-  /* Hide overflow text */
   text-overflow: ellipsis;
-  /* Display ellipsis (...) if text is too long */
 }
 
+/* Prevent cursor pointer for non-clickable items */
 .profile-dropdown li.username,
 .profile-dropdown li.email {
   font-size: 1rem;
-  max-width: 100%;
   cursor: default;
-  background-color: transparent;
-
 }
-
 
 .profile-dropdown li:hover {
-  background-color: transparent;
-  /* No hover background change */
+  background-color: #f1f3f5;
 }
 
+/* Open modal menu item styles */
 .open-modal-menu-item {
   padding: 10px 20px;
   cursor: pointer;
@@ -108,9 +118,9 @@
   display: inline-block;
   width: 100%;
   text-align: left;
-  /* Ensure text is aligned to the left */
 }
 
+/* Logout button specific styles */
 #profile-logout-button {
   color: white;
   background-color: rgb(234, 54, 54);
