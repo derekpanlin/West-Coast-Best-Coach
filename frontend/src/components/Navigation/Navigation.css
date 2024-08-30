@@ -37,6 +37,11 @@
   color: #265486;
 }
 
+.home-link:active {
+  transform: scale(0.96);
+}
+
+
 /* Find a Coach button styles */
 .find-a-coach-button {
   background-color: #265486;
@@ -56,6 +61,7 @@
 
 .find-a-coach-button:active {
   background-color: #162f5a;
+  transform: scale(0.96);
 }
 
 /* Profile button styles */
@@ -69,6 +75,7 @@
   border-radius: 8px;
   transition: background-color 0.3s ease, color 0.3s ease;
 }
+
 
 /* Profile dropdown styles */
 .profile-dropdown {
@@ -121,5 +128,5 @@
 
 #profile-logout-button:active {
   background-color: #b83b3b;
-  transform: scale(0.98);
+  transform: scale(0.95);
 }

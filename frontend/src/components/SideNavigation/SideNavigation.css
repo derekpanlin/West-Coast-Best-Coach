@@ -3,10 +3,43 @@
     background-color: #1ba6bf;
     border-right: 1px solid #dee2e6;
     height: 100vh;
+    padding-top: 20px;
+    /* Adds some space at the top */
 }
 
-.sidebar ul li a:hover,
-.sidebar ul li a.active {
-    color: #0056b3;
+.sidebar ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.sidebar ul li {
+    padding: 10px 0;
+    /* Adds equal padding on top and bottom of each item */
+    text-align: center;
+    /* Centers the text within the li element */
+    width: 100%;
+}
+
+#manage-lessons-link,
+#manage-reviews-link {
+    text-decoration: none;
+    color: #f0f8ff;
+    /* AliceBlue - a light color that contrasts well with the sidebar background */
+    display: block;
+    padding: 10px 0;
+    /* Adds padding inside the link */
     font-weight: bold;
+    transition: color 0.3s ease, background-color 0.3s ease;
+}
+
+#manage-lessons-link:hover,
+#manage-reviews-link:hover,
+#manage-lessons-link.active,
+#manage-reviews-link.active {
+    color: #ffffff;
+    /* White - a brighter color on hover or when active */
+    background-color: #1593a6;
+    /* A slightly darker shade of the sidebar color */
+    border-radius: 5px;
 }

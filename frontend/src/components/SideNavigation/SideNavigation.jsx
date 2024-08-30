@@ -8,8 +8,8 @@ function SideNavigation() {
     return (<>
         <nav className='sidebar'>
             <ul>
-                <li><NavLink to="/manage-lessons" className={({ isActive }) => isActive ? "active" : ""}>Manage Lessons</NavLink></li>
-                <li><NavLink to="/manage-reviews" className={({ isActive }) => isActive ? "active" : ""}>Manage Reviews</NavLink></li>
+                <li><NavLink to="/manage-lessons" id='manage-lessons-link' className={({ isActive }) => isActive ? "active" : ""}>Manage Lessons</NavLink></li>
+                <li><NavLink to="/manage-reviews" id='manage-reviews-link' className={({ isActive }) => isActive ? "active" : ""}>Manage Reviews</NavLink></li>
             </ul>
         </nav>
     </>);

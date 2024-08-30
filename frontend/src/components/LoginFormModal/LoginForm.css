@@ -93,7 +93,7 @@
     padding: 12px;
     border: none;
     border-radius: 6px;
-    background-color: #1e90ff;
+    background-color: #1ba6bf;
     color: white;
     font-size: 16px;
     cursor: pointer;
@@ -106,6 +106,5 @@
 }
 
 .demo-user-button:hover {
-    background-color: #007acc;
-
+    background-color: #1693a2;
 }
