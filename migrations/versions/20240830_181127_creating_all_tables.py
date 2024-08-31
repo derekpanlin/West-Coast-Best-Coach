@@ -1,17 +1,20 @@
-"""Recreating migrations
+"""creating all tables
 
-Revision ID: ae5dc31128e8
-Revises: 11eb6d058c7d
-Create Date: 2024-08-26 21:09:58.527777
+Revision ID: 891886fc0775
+Revises: 
+Create Date: 2024-08-30 18:11:27.852708
 
 """
 from alembic import op
 import sqlalchemy as sa
 
+import os
+environment = os.getenv("FLASK_ENV")
+SCHEMA = os.environ.get("SCHEMA")
 
 # revision identifiers, used by Alembic.
-revision = 'ae5dc31128e8'
-down_revision = '11eb6d058c7d'
+revision = '891886fc0775'
+down_revision = None
 branch_labels = None
 depends_on = None
 
@@ -31,29 +34,59 @@ def upgrade():
     sa.Column('updated_at', sa.DateTime(), nullable=True),
     sa.PrimaryKeyConstraint('id')
     )
+    
+    if environment == "production":
+        op.execute(f"ALTER TABLE coaches SET SCHEMA {SCHEMA};")
+        
+    op.create_table('users',
+    sa.Column('id', sa.Integer(), nullable=False),
+    sa.Column('first_name', sa.String(length=200), nullable=False),
+    sa.Column('last_name', sa.String(length=200), nullable=False),
+    sa.Column('username', sa.String(length=200), nullable=False),
+    sa.Column('email', sa.String(length=200), nullable=False),
+    sa.Column('hashed_password', sa.String(length=255), nullable=False),
+    sa.Column('created_at', sa.DateTime(), nullable=True),
+    sa.Column('updated_at', sa.DateTime(), nullable=True),
+    sa.PrimaryKeyConstraint('id'),
+    sa.UniqueConstraint('email'),
+    sa.UniqueConstraint('username')
+    )
+    
+    if environment == "production":
+        op.execute(f"ALTER TABLE users SET SCHEMA {SCHEMA};")
+        
     op.create_table('availabilities',
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('coach_id', sa.Integer(), nullable=False),
     sa.Column('day_of_week', sa.String(length=50), nullable=False),
-    sa.Column('start_time', sa.Time(), nullable=False),
-    sa.Column('end_time', sa.Time(), nullable=False),
+    sa.Column('start_time', sa.String(length=5), nullable=False),
+    sa.Column('end_time', sa.String(length=5), nullable=False),
     sa.ForeignKeyConstraint(['coach_id'], ['coaches.id'], ),
     sa.PrimaryKeyConstraint('id')
     )
+    
+    if environment == "production":
+        op.execute(f"ALTER TABLE availabilities SET SCHEMA {SCHEMA};")
+        
+        
     op.create_table('bookings',
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('user_id', sa.Integer(), nullable=False),
     sa.Column('coach_id', sa.Integer(), nullable=False),
     sa.Column('location', sa.String(length=200), nullable=False),
     sa.Column('booking_date', sa.Date(), nullable=False),
-    sa.Column('start_time', sa.Time(), nullable=False),
-    sa.Column('end_time', sa.Time(), nullable=False),
+    sa.Column('start_time', sa.String(length=5), nullable=False),
+    sa.Column('end_time', sa.String(length=5), nullable=False),
     sa.Column('created_at', sa.DateTime(), nullable=True),
     sa.Column('updated_at', sa.DateTime(), nullable=True),
     sa.ForeignKeyConstraint(['coach_id'], ['coaches.id'], ),
     sa.ForeignKeyConstraint(['user_id'], ['users.id'], ),
     sa.PrimaryKeyConstraint('id')
     )
+    
+    if environment == "production":
+        op.execute(f"ALTER TABLE bookings SET SCHEMA {SCHEMA};")
+        
     op.create_table('reviews',
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('user_id', sa.Integer(), nullable=False),
@@ -67,6 +100,9 @@ def upgrade():
     sa.PrimaryKeyConstraint('id')
     )
     # ### end Alembic commands ###
+    
+    if environment == "production":
+        op.execute(f"ALTER TABLE reviews SET SCHEMA {SCHEMA};")
 
 
 def downgrade():
@@ -74,5 +110,6 @@ def downgrade():
     op.drop_table('reviews')
     op.drop_table('bookings')
     op.drop_table('availabilities')
+    op.drop_table('users')
     op.drop_table('coaches')
     # ### end Alembic commands ###

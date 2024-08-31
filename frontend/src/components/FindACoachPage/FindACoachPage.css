@@ -17,24 +17,19 @@
     display: flex;
     flex-direction: column;
     gap: 30px;
-    /* Increased gap between sections */
+
 }
 
 .find-coach-section {
     background-color: #e8f5fd;
-    /* Softer background color for contrast */
     padding: 20px;
-    /* Increased padding for more spacing */
     border-radius: 12px;
-    /* Larger border-radius for a more pronounced effect */
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
-    /* Stronger shadow for emphasis */
     transition: transform 0.3s ease;
 }
 
 .find-coach-section:hover {
     transform: translateY(-5px);
-    /* Adds a hover effect to make sections pop */
 }
 
 .find-coach-region {
