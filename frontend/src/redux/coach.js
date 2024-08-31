@@ -72,18 +72,16 @@ const initialState = { coaches: {}, coach: {} }
 function coachReducer(state = initialState, action) {
     switch (action.type) {
         case SET_COACHES:
-            const newState = { ...state }
+            const newState = { ...state, coaches: { ...state.coaches } }
             action.payload.forEach(coach => {
                 newState.coaches[coach.id] = coach;
-            })
+            });
             return newState;
-
         case SET_COACH:
             return {
                 ...state,
                 coach: action.payload
             }
-
         default:
             return state;
     }

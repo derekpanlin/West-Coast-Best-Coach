@@ -10,7 +10,7 @@ import coachReducer from "./coach";
 
 const rootReducer = combineReducers({
   session: sessionReducer,
-  session: coachReducer,
+  coach: coachReducer,
 });
 
 let enhancer;

@@ -19,7 +19,7 @@ export const router = createBrowserRouter([
         element: <FindACoachPage />
       },
       {
-        path: "/find-a-coach/:city-coaches",
+        path: "/find-a-coach/:city",
         element: <CityCoaches />
       },
       {
@@ -29,6 +29,10 @@ export const router = createBrowserRouter([
       {
         path: "/manage-reviews",
         element: <ManageReviewsPage />
+      },
+      {
+        path: "*",
+        element: <div>Page Not Found. Sorry!</div>
       }
     ],
   },
