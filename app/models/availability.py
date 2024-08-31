@@ -22,5 +22,4 @@ class Availability(db.Model):
             'day_of_week': self.day_of_week,
             'start_time': self.start_time,
             'end_time': self.end_time,
-            'coach': self.coach.to_dict()  # Include coach details
         }
