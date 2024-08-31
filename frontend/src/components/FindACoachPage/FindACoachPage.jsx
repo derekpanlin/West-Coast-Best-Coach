@@ -1,8 +1,15 @@
 import './FindACoachPage.css'
 
 function FindACoachPage() {
-    return (
-        <h1> 𝟏 Pick a city → 𝟐 Pick a Coach</h1>
+    return (<div>
+        <h1>Pick a City</h1>
+        <div>
+            <h2>NorCal</h2>
+            <h2>SoCal</h2>
+
+        </div>
+    </div>
+
     );
 }
 
