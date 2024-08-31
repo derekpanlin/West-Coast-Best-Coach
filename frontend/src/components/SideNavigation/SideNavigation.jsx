@@ -1,7 +1,5 @@
 import './SideNavigation.css'
 import { NavLink } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
-import { useEffect, useState } from 'react';
 
 
 function SideNavigation() {
