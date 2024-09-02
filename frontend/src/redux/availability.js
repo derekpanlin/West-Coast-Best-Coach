@@ -2,6 +2,7 @@
 
 // Action Types
 const SET_AVAILABILITY = 'avilability/SET_AVAILABILITY'
+const CLEAR_AVAILABILITY = 'availability/CLEAR_AVAILABILITY';
 
 
 // Action creators
@@ -14,12 +15,19 @@ export const setAvailability = (coachId, availability) => ({
     },
 });
 
+export const clearAvailability = (coachId) => ({
+    type: CLEAR_AVAILABILITY,
+    payload: coachId
+})
+
+
 // Thunks
 export const fetchAvailabilityThunk = (coachId) => async (dispatch) => {
     const response = await fetch(`/api/coaches/${coachId}/availability`)
 
     if (response.ok) {
-        const availability = await response.json();
+        const data = await response.json();
+        const availability = data.availability;
         dispatch(setAvailability(coachId, availability))
     }
 }
@@ -35,6 +43,11 @@ export default function availabilityReducer(state = initialState, action) {
                 ...state,
                 [coachId]: availability
             };
+        }
+        case CLEAR_AVAILABILITY: {
+            const newState = { ...state };
+            delete newState[action.payload];
+            return newState;
         }
         default:
             return state;

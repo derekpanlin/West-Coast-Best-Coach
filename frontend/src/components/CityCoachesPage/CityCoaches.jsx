@@ -1,9 +1,11 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchCoachesByCity } from '../../redux/coach';
+import { fetchAvailabilityThunk, clearAvailability } from '../../redux/availability';
 import { Link, useParams } from 'react-router-dom';
 import { useModal } from '../../context/Modal';
 import CoachAvailabilityModal from '../CoachAvailabilityModal';
+
 
 const CityCoaches = () => {
     const { city } = useParams();
@@ -23,9 +25,19 @@ const CityCoaches = () => {
         dispatch(fetchCoachesByCity(city.replace(/-/g, ' ')));
     }, [dispatch, city]);
 
-    const handleViewAvailability = (coach) => {
-        setModalContent(<CoachAvailabilityModal coach={coach} />);
+    const handleViewAvailability = async (coach) => {
+        await dispatch(fetchAvailabilityThunk(coach.id));
+        setModalContent(
+            <CoachAvailabilityModal
+                coach={coach}
+                onClose={() => {
+                    dispatch(clearAvailability(coach.id));
+                    closeModal();
+                }}
+            />
+        );
     };
+
 
     return (
         <div>
