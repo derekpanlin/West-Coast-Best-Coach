@@ -1,0 +1,142 @@
+/* General Page Styling */
+body {
+    font-family: 'Roboto', sans-serif;
+    background-color: #f4f7f6;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+h1 {
+    font-size: 36px;
+    font-weight: 700;
+    text-align: center;
+    margin: 40px 0 20px;
+    color: #333;
+}
+
+/* Coach List Container */
+.coach-list {
+    max-width: 800px;
+    /* Limit the width to make it look cleaner */
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+/* Individual Coach Card */
+.coach-card {
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    margin-bottom: 20px;
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+
+.coach-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+/* Coach Information Section */
+.coach-info {
+    padding: 20px;
+    display: flex;
+    align-items: center;
+}
+
+.coach-info img.coach-image {
+    width: 120px;
+    height: 120px;
+    object-fit: cover;
+    border-radius: 50%;
+    margin-right: 20px;
+}
+
+.coach-info h3 {
+    font-size: 24px;
+    margin-bottom: 10px;
+    color: #007bff;
+}
+
+.coach-info p {
+    font-size: 18px;
+    color: #666;
+    margin-bottom: 5px;
+}
+
+/* Coach Actions Section */
+.coach-actions {
+    padding: 15px;
+    background-color: #f9f9f9;
+    display: flex;
+    justify-content: space-between;
+    border-top: 1px solid #e0e0e0;
+}
+
+.coach-actions .view-profile-btn,
+.coach-actions .view-availability-btn {
+    background-color: #007bff;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    text-decoration: none;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+    cursor: pointer;
+}
+
+.coach-actions .view-profile-btn:hover,
+.coach-actions .view-availability-btn:hover {
+    background-color: #0056b3;
+}
+
+.coach-actions .view-profile-btn {
+    background-color: #28a745;
+}
+
+.coach-actions .view-profile-btn:hover {
+    background-color: #218838;
+}
+
+p {
+    color: #555;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    h1 {
+        font-size: 28px;
+    }
+
+    .coach-info {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .coach-info img.coach-image {
+        margin-right: 0;
+        margin-bottom: 15px;
+    }
+
+    .coach-info h3 {
+        font-size: 20px;
+    }
+
+    .coach-info p {
+        font-size: 16px;
+    }
+
+    .coach-actions {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .coach-actions .view-profile-btn,
+    .coach-actions .view-availability-btn {
+        font-size: 14px;
+        width: 100%;
+        text-align: center;
+    }
+}

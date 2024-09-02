@@ -5,6 +5,7 @@ import { fetchAvailabilityThunk, clearAvailability } from '../../redux/availabil
 import { Link, useParams } from 'react-router-dom';
 import { useModal } from '../../context/Modal';
 import CoachAvailabilityModal from '../CoachAvailabilityModal';
+import './CityCoaches.css'
 
 
 const CityCoaches = () => {
@@ -13,7 +14,9 @@ const CityCoaches = () => {
     const { setModalContent, closeModal } = useModal();
 
     const formattedCity = city.replace(/-/g, ' ');
-    const capitalizedCity = formattedCity.charAt(0).toUpperCase() + formattedCity.slice(1);
+    const capitalizedCity = formattedCity.split(' ')
+        .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+        .join(' ');
 
     const coaches = useSelector(state =>
         Object.values(state.coach.coaches).filter(coach =>

@@ -7,7 +7,7 @@ function CoachAvailabilityModal({ coach, onClose }) {
 
     return (
         <div className="coach-availability-modal">
-            <h1>{`Availability for Coach ${coach.first_name} ${coach.last_name}`}</h1>
+            <h1>{`Availability for Coach ${coach.first_name}`}</h1>
             {availability && availability.length > 0 ? (
                 <ul>
                     {availability.map((slot, index) => (
@@ -17,7 +17,7 @@ function CoachAvailabilityModal({ coach, onClose }) {
                     ))}
                 </ul>
             ) : (
-                <p>No availability information found.</p>
+                <p>This coach has no availability at the moment!</p>
             )}
             <button onClick={onClose}>Close</button>
         </div>
