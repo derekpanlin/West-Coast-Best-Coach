@@ -67,21 +67,22 @@ export const fetchCoachesByCity = (city) => async (dispatch) => {
 };
 
 // Reducer
-const initialState = { coaches: {}, coach: {} }
+const initialState = { coaches: {} }
 
 function coachReducer(state = initialState, action) {
     switch (action.type) {
-        case SET_COACHES:
-            const newState = { ...state, coaches: { ...state.coaches } }
+        case SET_COACHES: {
+            const newState = { ...state, coaches: { ...state.coaches } };
             action.payload.forEach(coach => {
                 newState.coaches[coach.id] = coach;
             });
             return newState;
-        case SET_COACH:
-            return {
-                ...state,
-                coach: action.payload
-            }
+        }
+        case SET_COACH: {
+            const newState = { ...state };
+            newState.coaches[action.payload.id] = action.payload; // Also add the coach to the `coaches` list
+            return newState;
+        }
         default:
             return state;
     }

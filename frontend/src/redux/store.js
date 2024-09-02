@@ -7,10 +7,13 @@ import {
 import thunk from "redux-thunk";
 import sessionReducer from "./session";
 import coachReducer from "./coach";
+import availabilityReducer from "./availability";
 
 const rootReducer = combineReducers({
   session: sessionReducer,
   coach: coachReducer,
+  availability: availabilityReducer
+
 });
 
 let enhancer;

@@ -25,7 +25,7 @@ export const fetchAvailabilityThunk = (coachId) => async (dispatch) => {
 }
 
 // Reducer
-const initialState = { availability: {} }
+const initialState = {}
 
 export default function availabilityReducer(state = initialState, action) {
     switch (action.type) {
@@ -33,10 +33,7 @@ export default function availabilityReducer(state = initialState, action) {
             const { coachId, availability } = action.payload;
             return {
                 ...state,
-                availability: {
-                    ...state.availability,
-                    [coachId]: availability
-                }
+                [coachId]: availability
             };
         }
         default:
