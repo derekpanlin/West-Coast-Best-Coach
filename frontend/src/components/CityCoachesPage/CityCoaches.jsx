@@ -1,16 +1,18 @@
-import { useEffect } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import { fetchCoachesByCity } from '../../redux/coach'
-import { Link, useParams } from 'react-router-dom'
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchCoachesByCity } from '../../redux/coach';
+import { Link, useParams } from 'react-router-dom';
+import { useModal } from '../../context/Modal';
+import CoachAvailabilityModal from '../CoachAvailabilityModal';
 
 const CityCoaches = () => {
     const { city } = useParams();
     const dispatch = useDispatch();
+    const { setModalContent, closeModal } = useModal();
 
     const formattedCity = city.replace(/-/g, ' ');
     const capitalizedCity = formattedCity.charAt(0).toUpperCase() + formattedCity.slice(1);
 
-    // Make sure its lowercase to match the filtering
     const coaches = useSelector(state =>
         Object.values(state.coach.coaches).filter(coach =>
             coach.location.toLowerCase() === city.replace(/-/g, ' ').toLowerCase()
@@ -19,7 +21,11 @@ const CityCoaches = () => {
 
     useEffect(() => {
         dispatch(fetchCoachesByCity(city.replace(/-/g, ' ')));
-    }, [dispatch, city])
+    }, [dispatch, city]);
+
+    const handleViewAvailability = (coach) => {
+        setModalContent(<CoachAvailabilityModal coach={coach} />);
+    };
 
     return (
         <div>
@@ -28,10 +34,20 @@ const CityCoaches = () => {
                 {coaches.length > 0 ? (
                     coaches.map((coach) => (
                         <div key={coach.id} className="coach-card">
-                            <h3>{coach.first_name} {coach.last_name}</h3>
-                            <p>Rate: ${coach.rate}</p>
-                            <p>Availability: {coach.availability}</p>
-                            <Link to={`/coaches/${coach.id}`}>View Profile</Link>
+                            <div className="coach-info">
+                                <img src={coach.image_url} alt={`Coach ${coach.first_name}`} className="coach-image" />
+                                <div>
+                                    <h3>Coach {coach.first_name} {coach.last_name}</h3>
+                                    <p>Rate: ${coach.rate}</p>
+                                    <p>Over {coach.experience_years} years of experience</p>
+                                </div>
+                            </div>
+                            <div className="coach-actions">
+                                <Link to={`/coaches/${coach.id}`} className="view-profile-btn">View Profile</Link>
+                                <button className="view-availability-btn" onClick={() => handleViewAvailability(coach)}>
+                                    View Availability
+                                </button>
+                            </div>
                         </div>
                     ))
                 ) : (
