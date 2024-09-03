@@ -3,7 +3,7 @@ import Layout from './Layout';
 import LandingPage from '../components/LandingPage/LandingPage';
 import FindACoachPage from '../components/FindACoachPage';
 import CityCoaches from '../components/CityCoachesPage/CityCoaches';
-import CoachProfile from '../components/CoachProfile.jsx';
+import CoachProfile from '../components/CoachProfile/index.js';
 import ManageLessonsPage from '../components/ManageLessonsPage/ManageLessonsPage';
 import ManageReviewsPage from '../components/ManageReviewsPage/ManageReviewsPage';
 
