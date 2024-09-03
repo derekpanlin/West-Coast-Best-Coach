@@ -7,7 +7,7 @@ def seed_coaches_and_availabilities():
             "first_name": "Derek",
             "last_name": "Lin",
             "rate": 100,
-            "bio": "My name is Coach Derek and I love to coach",
+            "bio": "Hello my name is Derek and I am a local Irvine tennis coach with over 20 years of playing experience and over 16 years of teaching experience! I achieved a Top 75 national ranking back in juniors. I was the #1 singles player for the national club team at UC Davis (which is my alma mater and after graduating, I also played on the Irvine Valley College’s 3-Time State Championship Team). I was the Assistant Varsity Coach for Northwood High School for two years, privately coached tennis for about 10 years and have coached at numerous tennis academies. This past year (2022-2023) I had one student win CIF Division 1 (Portola High School), another win CIF Division 2 (Sage Hill), and another was a finalist of CIF Division 2 (J. Serra) so I’m confident that my student’s experience success at the highest high school level. I pride myself in having 100% success rate of students entering the high school tennis team (Frosh, JV, Varsity).",
             "location": "Irvine",
             "image_url": "/images/coach_profile_image/Coach-Derek-Lin.jpeg",
             "experience_years": 16,

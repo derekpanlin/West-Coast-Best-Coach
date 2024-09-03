@@ -3,6 +3,7 @@ import Layout from './Layout';
 import LandingPage from '../components/LandingPage/LandingPage';
 import FindACoachPage from '../components/FindACoachPage';
 import CityCoaches from '../components/CityCoachesPage/CityCoaches';
+import CoachProfile from '../components/CoachProfile.jsx';
 import ManageLessonsPage from '../components/ManageLessonsPage/ManageLessonsPage';
 import ManageReviewsPage from '../components/ManageReviewsPage/ManageReviewsPage';
 
@@ -21,6 +22,10 @@ export const router = createBrowserRouter([
       {
         path: "/find-a-coach/:city",
         element: <CityCoaches />
+      },
+      {
+        path: "/coaches/:coachId",
+        element: <CoachProfile />
       },
       {
         path: "/manage-lessons",

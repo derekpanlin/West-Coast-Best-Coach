@@ -1,0 +1,79 @@
+.coach-profile-container {
+    padding: 20px;
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.coach-profile-content {
+    display: flex;
+    gap: 20px;
+}
+
+.coach-profile-left {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.coach-profile-image {
+    width: 100%;
+    max-width: 300px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+}
+
+.coach-profile-details {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    text-align: center;
+    /* Ensures text is centered */
+}
+
+.coach-profile-details p {
+    font-size: 16px;
+    color: #333;
+    margin: 5px 0;
+}
+
+.profile-btn {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    width: 100%;
+    max-width: 200px;
+    text-align: center;
+}
+
+.profile-btn:hover {
+    background-color: #0056b3;
+}
+
+.coach-profile-right {
+    flex: 2;
+    display: flex;
+    flex-direction: column;
+}
+
+.coach-profile-header {
+    text-align: center;
+}
+
+.coach-profile-right h1,
+.coach-profile-right h2,
+.coach-profile-right h3 {
+    margin: 10px 0;
+    color: #333;
+}
+
+.coach-profile-right p {
+    font-size: 16px;
+    color: #555;
+    line-height: 1.5;
+}
