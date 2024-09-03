@@ -17,7 +17,7 @@ function CoachProfile() {
     useEffect(() => {
         dispatch(fetchCoachById(coachId));
         return () => {
-            dispatch(clearAvailability(coachId));
+            dispatch(clearAvailability(coachId)); // Clear availability on unmount
         };
     }, [dispatch, coachId]);
 
@@ -35,7 +35,7 @@ function CoachProfile() {
     };
 
     if (!coach) {
-        return <div>Loading profile page...</div>;
+        return <div>Loading...</div>;
     }
 
     return (
@@ -46,9 +46,9 @@ function CoachProfile() {
                     <div className="coach-profile-details">
                         <p><strong>Rate:</strong> ${coach.rate}</p>
                         <p><strong>Over {coach.experience_years} years of experience</strong></p>
-                        <button className="profile-btn" onClick={() => handleViewAvailability(coach)}>View Availability</button>
-                        <button className="profile-btn">Book A Lesson!</button>
-                        <button className="profile-btn">Write a Review!</button>
+                        <button className="profile-btn view-availability-btn" onClick={() => handleViewAvailability(coach)}>View Availability</button>
+                        <button className="profile-btn book-lesson-btn">Book A Lesson!</button>
+                        <button className="profile-btn write-review-btn">Write a Review!</button>
                     </div>
                 </div>
                 <div className="coach-profile-right">

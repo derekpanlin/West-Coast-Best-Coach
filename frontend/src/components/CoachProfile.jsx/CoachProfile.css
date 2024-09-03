@@ -38,9 +38,9 @@
     margin: 5px 0;
 }
 
+/* Button Styling */
 .profile-btn {
     padding: 10px 20px;
-    background-color: #007bff;
     color: white;
     border: none;
     border-radius: 5px;
@@ -51,8 +51,32 @@
     text-align: center;
 }
 
-.profile-btn:hover {
+/* Different colors for each button */
+.view-availability-btn {
+    background-color: #007bff;
+    /* Blue */
+}
+
+.view-availability-btn:hover {
     background-color: #0056b3;
+}
+
+.book-lesson-btn {
+    background-color: #28a745;
+    /* Green */
+}
+
+.book-lesson-btn:hover {
+    background-color: #218838;
+}
+
+.write-review-btn {
+    background-color: #dc3545;
+    /* Red */
+}
+
+.write-review-btn:hover {
+    background-color: #c82333;
 }
 
 .coach-profile-right {
