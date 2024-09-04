@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchCoachesByCity } from '../../redux/coach';
+import { fetchCoachesByCity, clearCoaches } from '../../redux/coach';
 import { fetchAvailabilityThunk, clearAvailability } from '../../redux/availability';
 import { Link, useParams } from 'react-router-dom';
 import { useModal } from '../../context/Modal';
@@ -25,7 +25,13 @@ const CityCoaches = () => {
     );
 
     useEffect(() => {
+        // Fetch coaches by city
         dispatch(fetchCoachesByCity(city.replace(/-/g, ' ')));
+
+        // Clear coaches on unmount
+        return () => {
+            dispatch(clearCoaches());
+        };
     }, [dispatch, city]);
 
     const handleViewAvailability = async (coach) => {
