@@ -34,7 +34,7 @@ booking_routes = Blueprint('bookings', __name__)
     
 """
 # CREATE A BOOKING (POST /api/bookings)
-@booking_routes.route('/', methods=['POST'])
+@booking_routes.route('', methods=['POST'])
 @login_required
 def create_booking():
     """

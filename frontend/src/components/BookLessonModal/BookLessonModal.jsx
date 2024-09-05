@@ -11,44 +11,99 @@ function BookLessonModal({ coach }) {
     const dispatch = useDispatch();
     const { closeModal } = useModal();
 
-    // State for selected date, available times, and selected time slot
+    // State for selected date, available times, and selected time slots
     const [selectedDate, setSelectedDate] = useState(null);
     const [availableTimes, setAvailableTimes] = useState([]);
-    const [selectedTime, setSelectedTime] = useState(null);
+    const [selectedSlots, setSelectedSlots] = useState([]); // Changed to array
 
-    // Fetch availability based on the selected date
+    // Fetch availability from Redux store for the current coach
+    const coachAvailability = useSelector(state => state.availability[coach.id] || []);
+
+    // Fetch the availability when the modal is opened or when a date is selected
+    useEffect(() => {
+
+        if (selectedDate) {
+            const dayOfWeek = selectedDate.toLocaleDateString('en-US', { weekday: 'long' });
+
+            // Dispatch fetchAvailabilityThunk to get availability for that coach and day of the week
+            dispatch(fetchAvailabilityThunk(coach.id, dayOfWeek));
+        }
+    }, [selectedDate, dispatch, coach.id]);
+
+    // Update available times when the coach availability in the store changes
     useEffect(() => {
         if (selectedDate) {
             const dayOfWeek = selectedDate.toLocaleDateString('en-US', { weekday: 'long' });
 
-            // Fetch availability for the coach for that day of the week
-            const fetchAvailability = async () => {
-                const availability = await dispatch(fetchAvailabilityThunk(coach.id, dayOfWeek));
+            // Filter availability for the selected day of the week
+            const filteredAvailability = coachAvailability.filter(
+                availability => availability.day_of_week === dayOfWeek
+            );
 
-                if (availability && availability.length > 0) {
-                    setAvailableTimes(availability); // Set available times for that day
-                } else {
-                    setAvailableTimes([]); // No availability for the selected day
-                }
-            };
+            if (filteredAvailability.length > 0) {
+                const times = [];
+                // Break availability into one-hour increments
+                filteredAvailability.forEach(availability => {
+                    let start = parseTime(availability.start_time);
+                    let end = parseTime(availability.end_time);
 
-            fetchAvailability();
+                    while (start < end) {
+                        const slotStart = formatTime(start);
+                        const slotEnd = formatTime(addOneHour(start));
+                        times.push(`${slotStart} - ${slotEnd}`);
+                        start = addOneHour(start);
+                    }
+                });
+                setAvailableTimes(times);
+            } else {
+                setAvailableTimes([]);  // No availability for the selected day
+            }
         }
-    }, [selectedDate, dispatch, coach.id]);
+    }, [coachAvailability, selectedDate]);
+
+    // Parse time string (HH:MM) to a Date object
+    const parseTime = (timeStr) => {
+        const [hours, minutes] = timeStr.split(':');
+        return new Date(0, 0, 0, parseInt(hours), parseInt(minutes));
+    };
+
+    // Format Date object to a time string (HH:MM)
+    const formatTime = (date) => {
+        return date.toTimeString().slice(0, 5);
+    };
+
+    // Add one hour to the Date object
+    const addOneHour = (date) => {
+        const newDate = new Date(date);
+        newDate.setHours(date.getHours() + 1);
+        return newDate;
+    };
+
+    // Handle selecting/deselecting time slots
+    const toggleTimeSlot = (timeSlot) => {
+        if (selectedSlots.includes(timeSlot)) {
+            setSelectedSlots(selectedSlots.filter(slot => slot !== timeSlot));  // Deselect slot
+        } else {
+            setSelectedSlots([...selectedSlots, timeSlot]);  // Select slot
+        }
+    };
 
     // Handle booking submission
     const handleBookLesson = async () => {
-        if (!selectedDate || !selectedTime) {
-            alert('Please select a date and time.');
+        if (!selectedDate || selectedSlots.length === 0) {
+            alert('Please select a date and at least one time slot.');
             return;
         }
 
-        const bookingData = {
-            coach_id: coach.id,
-            booking_date: selectedDate.toISOString().split('T')[0], // Format date to 'YYYY-MM-DD'
-            start_time: selectedTime, // Time in 'HH:MM' format
-            end_time: calculateEndTime(selectedTime), // One hour from start time
-        };
+        const bookingData = selectedSlots.map(slot => {
+            const [start_time, end_time] = slot.split(' - ');  // Split selected time slot
+            return {
+                coach_id: coach.id,
+                booking_date: selectedDate.toISOString().split('T')[0], // Format date to 'YYYY-MM-DD'
+                start_time,  // Time in 'HH:MM' format
+                end_time,    // Time in 'HH:MM' format
+            };
+        });
 
         const result = await dispatch(createBookingThunk(bookingData));
 
@@ -59,15 +114,6 @@ function BookLessonModal({ coach }) {
             alert('Failed to create booking. Please try again.');
         }
     };
-
-    // Function to calculate end time (1-hour increments)
-    const calculateEndTime = (startTime) => {
-        const [hours, minutes] = startTime.split(':');
-        const endTime = new Date(0, 0, 0, parseInt(hours) + 1, parseInt(minutes));
-        return endTime.toTimeString().slice(0, 5); // Return time in 'HH:MM' format
-    };
-
-
 
     return (
         <div className="book-lesson-modal">
@@ -90,8 +136,8 @@ function BookLessonModal({ coach }) {
                             {availableTimes.map((time) => (
                                 <button
                                     key={time}
-                                    className={`timeslot-button ${selectedTime === time ? 'selected' : ''}`}
-                                    onClick={() => setSelectedTime(time)}
+                                    className={`timeslot-button ${selectedSlots.includes(time) ? 'selected' : ''}`}
+                                    onClick={() => toggleTimeSlot(time)}
                                 >
                                     {time}
                                 </button>

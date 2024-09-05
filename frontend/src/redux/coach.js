@@ -1,6 +1,8 @@
+import { REMOVE_USER } from "./session";
 const SET_COACHES = 'coaches/setCoaches';
 const SET_COACH = 'coaches/setCoach';
 const CLEAR_COACHES = 'coaches/clearCoaches';
+
 
 // Action Creator to set coaches
 const setCoaches = (coaches) => ({
@@ -96,6 +98,11 @@ export const coachReducer = (state = initialState, action) => {
         case CLEAR_COACHES: {
             return {
                 ...state,
+                coaches: {}
+            }
+        }
+        case REMOVE_USER: {
+            return {
                 coaches: {}
             }
         }
