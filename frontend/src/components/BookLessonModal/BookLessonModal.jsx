@@ -7,7 +7,7 @@ import { createBookingThunk } from '../../redux/booking';
 import { useModal } from '../../context/Modal';
 import './BookLessonModal.css'
 
-function BookLessonModal() {
+function BookLessonModal({ coach }) {
     const dispatch = useDispatch();
     const { closeModal } = useModal();
 

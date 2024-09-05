@@ -59,8 +59,8 @@ const CityCoaches = () => {
                                 <img src={coach.image_url} alt={`Coach ${coach.first_name}`} className="coach-image" />
                                 <div>
                                     <h3>Coach {coach.first_name} {coach.last_name}</h3>
-                                    <p>Rate: ${coach.rate}</p>
-                                    <p>Over {coach.experience_years} years of experience</p>
+                                    <p><strong>Rate</strong>: ${coach.rate} / hour</p>
+                                    <p>{coach.experience_years}+ years of experience</p>
                                 </div>
                             </div>
                             <div className="coach-actions">

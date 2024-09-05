@@ -55,8 +55,8 @@ function CoachProfile() {
                 <div className="coach-profile-left">
                     <img src={coach.image_url} alt={`Coach ${coach.first_name}`} className="coach-profile-image" />
                     <div className="coach-profile-details">
-                        <p><strong>Rate:</strong> ${coach.rate}</p>
-                        <p><strong>Over {coach.experience_years} years of experience</strong></p>
+                        <p><strong>Rate:</strong> ${coach.rate} / hour</p>
+                        <p><strong>{coach.experience_years}+ years of experience</strong></p>
                         <button className="profile-btn view-availability-btn" onClick={() => handleViewAvailability(coach)}>View Availability</button>
                         <button className="profile-btn book-lesson-btn" onClick={() => handleBookLesson(coach)}>Book A Lesson!</button>
                         <button className="profile-btn write-review-btn">Write a Review!</button>
