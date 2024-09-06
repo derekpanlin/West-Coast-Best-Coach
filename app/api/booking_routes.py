@@ -7,32 +7,6 @@ from datetime import datetime
 booking_routes = Blueprint('bookings', __name__)
 
 
-"""
-	1.	Create a Booking (POST /api/bookings):
-	•	Request: Sends JSON data with the coach_id, booking_date, start_time, and end_time.
-	•	Validation: The route checks if the coach exists, and you should add logic to validate the booking time against the coach’s availability.
-	•	Response: Returns the newly created booking.
-    
-	2.	Get All Bookings (GET /api/bookings):
-	•	Request: Fetches all bookings for the currently logged-in user.
-	•	Response: Returns a list of bookings, each in dictionary format.
-    
-	3.	Get a Specific Booking (GET /api/bookings/<int:id>):
-	•	Request: Fetches a specific booking by its ID.
-	•	Validation: Ensures the booking belongs to the currently logged-in user.
-	•	Response: Returns the booking details.
-    
-	4.	Update a Booking (PUT /api/bookings/<int:id>):
-	•	Request: Sends JSON data to update the booking’s booking_date, start_time, and end_time.
-	•	Validation: Ensures the booking exists, belongs to the current user, and that the new time doesn’t conflict with the coach’s availability.
-	•	Response: Returns the updated booking.
-    
-	5.	Delete a Booking (DELETE /api/bookings/<int:id>):
-	•	Request: Deletes a specific booking by its ID.
-	•	Validation: Ensures the booking belongs to the current user.
-	•	Response: Confirms that the booking was deleted.
-    
-"""
 # CREATE A BOOKING (POST /api/bookings)
 @booking_routes.route('', methods=['POST'])
 @login_required
