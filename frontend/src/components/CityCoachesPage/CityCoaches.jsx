@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchCoachesByCity } from '../../redux/coach';
+import { fetchCoachesByCity, clearCoaches } from '../../redux/coach';
 import { fetchAvailabilityThunk, clearAvailability } from '../../redux/availability';
 import { Link, useParams } from 'react-router-dom';
 import { useModal } from '../../context/Modal';
@@ -25,7 +25,13 @@ const CityCoaches = () => {
     );
 
     useEffect(() => {
+        // Fetch coaches by city
         dispatch(fetchCoachesByCity(city.replace(/-/g, ' ')));
+
+        // Clear coaches on unmount
+        return () => {
+            dispatch(clearCoaches());
+        };
     }, [dispatch, city]);
 
     const handleViewAvailability = async (coach) => {
@@ -53,8 +59,8 @@ const CityCoaches = () => {
                                 <img src={coach.image_url} alt={`Coach ${coach.first_name}`} className="coach-image" />
                                 <div>
                                     <h3>Coach {coach.first_name} {coach.last_name}</h3>
-                                    <p>Rate: ${coach.rate}</p>
-                                    <p>Over {coach.experience_years} years of experience</p>
+                                    <p><strong>Rate</strong>: ${coach.rate} / hour</p>
+                                    <p>{coach.experience_years}+ years of experience</p>
                                 </div>
                             </div>
                             <div className="coach-actions">

@@ -8,11 +8,13 @@ import thunk from "redux-thunk";
 import sessionReducer from "./session";
 import coachReducer from "./coach";
 import availabilityReducer from "./availability";
+import { bookingsReducer } from "./booking";
 
 const rootReducer = combineReducers({
   session: sessionReducer,
   coach: coachReducer,
-  availability: availabilityReducer
+  availability: availabilityReducer,
+  bookings: bookingsReducer
 
 });
 

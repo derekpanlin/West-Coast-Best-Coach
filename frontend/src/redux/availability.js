@@ -1,7 +1,7 @@
 // redux/availability.js
 
 // Action Types
-const SET_AVAILABILITY = 'avilability/SET_AVAILABILITY'
+const SET_AVAILABILITY = 'availability/SET_AVAILABILITY'
 const CLEAR_AVAILABILITY = 'availability/CLEAR_AVAILABILITY';
 
 
