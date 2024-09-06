@@ -1,0 +1,124 @@
+/* BookLessonModal.css */
+
+.book-lesson-modal {
+    padding: 20px;
+    max-width: 600px;
+    margin: 0 auto;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    font-family: Arial, sans-serif;
+}
+
+h2 {
+    text-align: center;
+    font-size: 24px;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+.modal-content {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.calendar-section,
+.timeslots-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.calendar-section h3,
+.timeslots-section h3 {
+    font-size: 18px;
+    color: #555;
+    margin-bottom: 10px;
+}
+
+/* Styling the DatePicker input */
+.react-datepicker__input-container input {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+    transition: border 0.3s ease;
+}
+
+.react-datepicker__input-container input:hover {
+    border-color: #999;
+}
+
+/* Time slots */
+.timeslots {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+}
+
+.timeslot-button {
+    padding: 10px 15px;
+    font-size: 14px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    cursor: pointer;
+    background-color: #f9f9f9;
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+    width: 120px;
+    text-align: center;
+}
+
+/* When a time slot is selected */
+.timeslot-button.selected {
+    background-color: #007bff;
+    color: white;
+    border-color: #007bff;
+}
+
+.timeslot-button:hover {
+    background-color: #f0f0f0;
+    border-color: #ccc;
+}
+
+/* Action buttons */
+.modal-actions {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 20px;
+}
+
+.book-button,
+.cancel-button {
+    padding: 10px 20px;
+    font-size: 16px;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+/* Book button */
+.book-button {
+    background-color: #28a745;
+    /* Green */
+}
+
+.book-button:hover {
+    background-color: #218838;
+}
+
+/* Cancel button */
+.cancel-button {
+    background-color: #dc3545;
+    /* Red */
+}
+
+.cancel-button:hover {
+    background-color: #c82333;
+}

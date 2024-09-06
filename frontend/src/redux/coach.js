@@ -1,5 +1,8 @@
+import { REMOVE_USER } from "./session";
 const SET_COACHES = 'coaches/setCoaches';
 const SET_COACH = 'coaches/setCoach';
+const CLEAR_COACHES = 'coaches/clearCoaches';
+
 
 // Action Creator to set coaches
 const setCoaches = (coaches) => ({
@@ -11,6 +14,11 @@ const setCoaches = (coaches) => ({
 const setCoach = (coach) => ({
     type: SET_COACH,
     payload: coach
+});
+
+// Clear coaches
+export const clearCoaches = () => ({
+    type: CLEAR_COACHES
 });
 
 // Thunk to fetch all coaches
@@ -45,7 +53,7 @@ export const fetchCoachById = (id) => async (dispatch) => {
             console.error('Coach not found:', errorMessages);
         }
     } catch (error) {
-        console.error('Error:', error.message);
+        console.error('Error fetching coach:', error);
     }
 };
 
@@ -69,7 +77,7 @@ export const fetchCoachesByCity = (city) => async (dispatch) => {
 // Reducer
 const initialState = { coaches: {} }
 
-function coachReducer(state = initialState, action) {
+export const coachReducer = (state = initialState, action) => {
     switch (action.type) {
         case SET_COACHES: {
             const newState = { ...state, coaches: { ...state.coaches } };
@@ -79,9 +87,24 @@ function coachReducer(state = initialState, action) {
             return newState;
         }
         case SET_COACH: {
-            const newState = { ...state };
-            newState.coaches[action.payload.id] = action.payload; // Also add the coach to the `coaches` list
-            return newState;
+            return {
+                ...state,
+                coaches: {
+                    ...state.coaches,
+                    [action.payload.id]: action.payload  // Add/update the specific coach
+                }
+            };
+        }
+        case CLEAR_COACHES: {
+            return {
+                ...state,
+                coaches: {}
+            }
+        }
+        case REMOVE_USER: {
+            return {
+                coaches: {}
+            }
         }
         default:
             return state;

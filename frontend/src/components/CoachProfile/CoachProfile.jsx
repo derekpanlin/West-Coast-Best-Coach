@@ -5,6 +5,7 @@ import { fetchCoachById } from '../../redux/coach';
 import { useModal } from '../../context/Modal';
 import CoachAvailabilityModal from '../CoachAvailabilityModal';
 import { fetchAvailabilityThunk, clearAvailability } from '../../redux/availability';
+import BookLessonModal from '../BookLessonModal';
 import './CoachProfile.css';
 
 function CoachProfile() {
@@ -15,7 +16,9 @@ function CoachProfile() {
     const coach = useSelector(state => state.coach.coaches[coachId]);
 
     useEffect(() => {
+        // console.log('Coach ID from useParams:', coachId);
         dispatch(fetchCoachById(coachId));
+        dispatch(fetchAvailabilityThunk(coachId));
         return () => {
             dispatch(clearAvailability(coachId)); // Clear availability on unmount
         };
@@ -34,6 +37,15 @@ function CoachProfile() {
         );
     };
 
+    const handleBookLesson = (coach) => {
+        setModalContent(
+            <BookLessonModal
+                coach={coach}
+                onClose={closeModal}
+            />
+        )
+    }
+
     if (!coach) {
         return <div>Loading...</div>;
     }
@@ -44,10 +56,10 @@ function CoachProfile() {
                 <div className="coach-profile-left">
                     <img src={coach.image_url} alt={`Coach ${coach.first_name}`} className="coach-profile-image" />
                     <div className="coach-profile-details">
-                        <p><strong>Rate:</strong> ${coach.rate}</p>
-                        <p><strong>Over {coach.experience_years} years of experience</strong></p>
+                        <p><strong>Rate:</strong> ${coach.rate} / hour</p>
+                        <p><strong>{coach.experience_years}+ years of experience</strong></p>
                         <button className="profile-btn view-availability-btn" onClick={() => handleViewAvailability(coach)}>View Availability</button>
-                        <button className="profile-btn book-lesson-btn">Book A Lesson!</button>
+                        <button className="profile-btn book-lesson-btn" onClick={() => handleBookLesson(coach)}>Book A Lesson!</button>
                         <button className="profile-btn write-review-btn">Write a Review!</button>
                     </div>
                 </div>
