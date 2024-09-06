@@ -2,13 +2,14 @@
 const CREATE_BOOKING = 'bookings/CREATE_BOOKING'
 const GET_BOOKINGS = 'bookings/GET_BOOKINGS'
 const GET_BOOKING = 'bookings/GET_BOOKING'
+const GET_BOOKINGS_FOR_DATE = 'bookings/GET_BOOKINGS_FOR_DATE'
 const UPDATE_BOOKING = 'bookings/UPDATE_BOOKING'
 const DELETE_BOOKING = 'bookings/DELETE_BOOKING'
 
 // Action Creators
-export const createBooking = (booking) => ({
+export const createBooking = (bookings) => ({
     type: CREATE_BOOKING,
-    payload: booking
+    payload: bookings // Array of bookings
 })
 
 export const getBookings = (bookings) => ({
@@ -21,9 +22,14 @@ export const getBooking = (booking) => ({
     payload: booking
 })
 
-export const updateBooking = (booking) => ({
+export const getBookingsForDate = (bookings, coachId, date) => ({
+    type: GET_BOOKINGS_FOR_DATE,
+    payload: { bookings, coachId, date }
+})
+
+export const updateBooking = (bookings) => ({
     type: UPDATE_BOOKING,
-    payload: booking
+    payload: bookings // Array of bookings too
 })
 
 export const deleteBooking = (bookingId) => ({
@@ -32,19 +38,19 @@ export const deleteBooking = (bookingId) => ({
 })
 
 // Thunks
-export const createBookingThunk = (booking) => async (dispatch) => {
+export const createBookingThunk = (bookings) => async (dispatch) => {
     const response = await fetch('/api/bookings', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify(booking)
+        body: JSON.stringify(bookings)
     })
 
     if (response.ok) {
-        const newBooking = await response.json();
-        dispatch(createBooking(newBooking));
-        return newBooking;
+        const newBookings = await response.json();
+        dispatch(createBooking(newBookings.bookings));
+        return newBookings;
     } else {
         const errors = await response.json()
         return errors;
@@ -77,19 +83,34 @@ export const getBookingThunk = (bookingId) => async (dispatch) => {
     }
 }
 
-export const updateBookingThunk = (bookingId, updatedData) => async (dispatch) => {
-    const response = await fetch(`/api/bookings/${bookingId}`, {
+// Fetch bookings for a specific coach on a specific date
+export const fetchBookingsThunk = (coachId, date) => async (dispatch) => {
+    const formattedDate = date.toISOString().split('T')[0];  // Format date as 'YYYY-MM-DD'
+    const response = await fetch(`/api/coaches/${coachId}/bookings?date=${formattedDate}`);
+
+    if (response.ok) {
+        const bookings = await response.json();
+        dispatch(getBookingsForDate(bookings, coachId, formattedDate));  // Dispatch the action to store bookings for this date
+        return bookings;
+    } else {
+        const errors = await response.json();
+        return errors;
+    }
+};
+
+export const updateBookingThunk = (updatedData) => async (dispatch) => {
+    const response = await fetch('/api/bookings', {
         method: 'PUT',
         headers: {
             "Content-Type": "application/json",
         },
-        body: JSON.stringify(updatedData)
-    })
+        body: JSON.stringify({ bookings: updatedData })  // Send the array of updated bookings
+    });
 
     if (response.ok) {
-        const updatedBooking = await response.json();
-        dispatch(updateBooking(updatedBooking));
-        return updatedBooking;
+        const updatedBookings = await response.json();
+        dispatch(updateBooking(updatedBookings.bookings));  // Handle array of bookings
+        return updatedBookings;
     } else {
         const errors = await response.json();
         return errors;
@@ -110,13 +131,17 @@ export const deleteBookingThunk = (bookingId) => async (dispatch) => {
     }
 }
 
-const initialState = { bookings: {}, singleBooking: {} };
+const initialState = { bookings: {}, singleBooking: {}, bookingsByDate: {} };
 
 export const bookingsReducer = (state = initialState, action) => {
     switch (action.type) {
         case CREATE_BOOKING: {
             const newState = { ...state, bookings: { ...state.bookings } };
-            newState.bookings[action.payload.id] = action.payload;
+            // Loop through each booking in the payload array
+            action.payload.forEach(booking => {
+                newState.bookings[booking.id] = booking;  // Add each booking to the state
+            });
+
             return newState;
         }
         case GET_BOOKINGS: {
@@ -132,12 +157,25 @@ export const bookingsReducer = (state = initialState, action) => {
                 singleBooking: action.payload,
             };
         }
+        case GET_BOOKINGS_FOR_DATE: {
+            const newState = { ...state };
+            if (!newState.bookingsByDate[action.payload.coachId]) {
+                newState.bookingsByDate[action.payload.coachId] = {};
+            }
+            newState.bookingsByDate[action.payload.coachId][action.payload.date] = action.payload.bookings;
+            return newState;
+        }
         case UPDATE_BOOKING: {
             const newState = { ...state, bookings: { ...state.bookings } };
-            newState.bookings[action.payload.id] = action.payload;
-            if (state.singleBooking.id === action.payload.id) {
-                newState.singleBooking = action.payload;
-            }
+            // Loop through each updated booking in the payload array
+            action.payload.forEach(booking => {
+                newState.bookings[booking.id] = booking;  // Update each booking in the state
+                // Update singleBooking if it matches any updated booking
+                if (state.singleBooking.id === booking.id) {
+                    newState.singleBooking = booking;
+                }
+            });
+
             return newState;
         }
         case DELETE_BOOKING: {

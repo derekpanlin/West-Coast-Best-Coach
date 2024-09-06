@@ -18,6 +18,7 @@ function CoachProfile() {
     useEffect(() => {
         // console.log('Coach ID from useParams:', coachId);
         dispatch(fetchCoachById(coachId));
+        dispatch(fetchAvailabilityThunk(coachId));
         return () => {
             dispatch(clearAvailability(coachId)); // Clear availability on unmount
         };
