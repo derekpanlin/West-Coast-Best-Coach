@@ -11,42 +11,54 @@ function BookLessonModal({ coach }) {
     const dispatch = useDispatch();
     const { closeModal } = useModal();
 
-    // State for selected date, available times, selected time slots, loading and submitting indicators
     const [selectedDate, setSelectedDate] = useState(null);
     const [availableTimes, setAvailableTimes] = useState([]);
     const [selectedSlots, setSelectedSlots] = useState([]);
-    const [loading, setLoading] = useState(false);  // For loading availability
-    const [submitting, setSubmitting] = useState(false);  // For booking submission
+    const [loading, setLoading] = useState(false);
+    const [submitting, setSubmitting] = useState(false);
 
-    // Fetch availability from Redux store for the current coach (static weekly availability)
     const coachAvailability = useSelector(state => state.availability[coach.id] || []);
+    const formattedDate = selectedDate?.toISOString().split('T')[0];  // Format the selected date
 
-    // Fetch bookings for the selected date from Redux store
-    const coachBookings = useSelector(state => state.bookings[coach.id]?.[selectedDate?.toISOString().split('T')[0]] || []);
+    // Fetch the bookings from bookingsByDate with the correct coach ID and formatted date
+    const coachBookings = useSelector(state => {
+        const bookingsByCoach = state.bookings.bookingsByDate[coach.id];
+        return bookingsByCoach ? bookingsByCoach[formattedDate]?.bookings || [] : [];
+    });
 
-    // Fetch availability when the modal is opened or when a date is selected
+    // Debug: Log selected date
+    console.log("Selected Date:", selectedDate);
+
     useEffect(() => {
         if (selectedDate) {
-            setLoading(true);  // Start loading indicator
+            setLoading(true);
             const dayOfWeek = selectedDate.toLocaleDateString('en-US', { weekday: 'long' });
 
-            // Fetch the static weekly availability for the selected day
-            dispatch(fetchAvailabilityThunk(coach.id, dayOfWeek)).then(() => setLoading(false));
+            console.log("Fetching availability for day:", dayOfWeek);
 
-            // Fetch bookings for the selected date
-            dispatch(fetchBookingsThunk(coach.id, selectedDate));
+            const fetchData = async () => {
+                await dispatch(fetchAvailabilityThunk(coach.id, dayOfWeek));
+                await dispatch(fetchBookingsThunk(coach.id, selectedDate));
+                setLoading(false);
+            };
+
+            fetchData();
         }
     }, [selectedDate, dispatch, coach.id]);
 
-    // Update available times when availability or bookings change
+    // Debug: Log fetched availability and bookings
+    console.log("Coach Availability:", coachAvailability);
+    console.log("Coach Bookings:", coachBookings);
+
     useEffect(() => {
-        if (selectedDate) {
+        if (selectedDate && coachAvailability.length > 0) {
             const dayOfWeek = selectedDate.toLocaleDateString('en-US', { weekday: 'long' });
 
-            // Filter static availability for the selected day of the week
             const filteredAvailability = coachAvailability.filter(
                 availability => availability.day_of_week === dayOfWeek
             );
+
+            console.log("Filtered Availability for selected day:", filteredAvailability);
 
             if (filteredAvailability.length > 0) {
                 const times = [];
@@ -58,16 +70,19 @@ function BookLessonModal({ coach }) {
                         const slotStart = formatTime(start);
                         const slotEnd = formatTime(addOneHour(start));
 
-                        // Compare bookings with slots (format both to HH:mm)
-                        const isBooked = coachBookings.some(booking => {
-                            const bookingStart = parseTime(booking.start_time);
-                            const bookingEnd = parseTime(booking.end_time);
-                            // Check if the time slots overlap
-                            return (start >= bookingStart && start < bookingEnd);
-                        });
+                        console.log(`Checking slot ${slotStart} - ${slotEnd}`);
+
+                        const isBooked = coachBookings.some(
+                            booking =>
+                                formatTime(parseTime(booking.start_time)) === slotStart &&
+                                formatTime(parseTime(booking.end_time)) === slotEnd
+                        );
 
                         if (!isBooked) {
+                            console.log(`Slot ${slotStart} - ${slotEnd} is available`);
                             times.push(`${slotStart} - ${slotEnd}`);
+                        } else {
+                            console.log(`Slot ${slotStart} - ${slotEnd} is booked`);
                         }
 
                         start = addOneHour(start);
@@ -75,46 +90,40 @@ function BookLessonModal({ coach }) {
                 });
                 setAvailableTimes(times);
             } else {
-                setAvailableTimes([]);  // No availability for the selected day
+                setAvailableTimes([]);
             }
         }
     }, [coachAvailability, selectedDate, coachBookings]);
 
-    // Parse time string (HH:MM) to a Date object
     const parseTime = (timeStr) => {
         const [hours, minutes] = timeStr.split(':');
         return new Date(0, 0, 0, parseInt(hours), parseInt(minutes));
     };
 
-    // Format Date object to a time string (HH:MM)
     const formatTime = (date) => {
         return date.toTimeString().slice(0, 5);
     };
 
-    // Add one hour to the Date object
     const addOneHour = (date) => {
         const newDate = new Date(date);
         newDate.setHours(date.getHours() + 1);
         return newDate;
     };
 
-    // Handle selecting/deselecting time slots
     const toggleTimeSlot = (timeSlot) => {
         if (selectedSlots.includes(timeSlot)) {
-            setSelectedSlots(selectedSlots.filter(slot => slot !== timeSlot));  // Deselect slot
+            setSelectedSlots(selectedSlots.filter(slot => slot !== timeSlot));
         } else {
-            setSelectedSlots([...selectedSlots, timeSlot]);  // Select slot
+            setSelectedSlots([...selectedSlots, timeSlot]);
         }
     };
 
-    // Handle booking submission
     const handleBookLesson = async () => {
         if (!selectedDate || selectedSlots.length === 0) {
-            return;  // No alert needed, inline validation is now handled
+            return;
         }
 
-        setSubmitting(true);  // Start submission indicator
-        // Prepare data for multiple time slots
+        setSubmitting(true);
         const bookingData = {
             coach_id: coach.id,
             booking_date: selectedDate.toISOString().split('T')[0],
@@ -128,11 +137,11 @@ function BookLessonModal({ coach }) {
 
         if (!result.errors) {
             alert('Booking successfully created!');
-            closeModal();  // Close the modal after successful booking
+            closeModal();
         } else {
             alert('Failed to create booking. Please try again.');
         }
-        setSubmitting(false);  // End submission indicator
+        setSubmitting(false);
     };
 
     return (
@@ -146,7 +155,7 @@ function BookLessonModal({ coach }) {
                         onChange={(date) => setSelectedDate(date)}
                         dateFormat="yyyy-MM-dd"
                         placeholderText="Select a date"
-                        minDate={new Date()} // Disable past dates
+                        minDate={new Date()}
                     />
                 </div>
                 <div className="timeslots-section">
