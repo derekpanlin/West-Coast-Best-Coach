@@ -71,7 +71,7 @@ def create_booking():
     return {'bookings': [booking.to_dict() for booking in bookings]}, 201
     
 # GET ALL BOOKINGS (GET /api/bookings)
-@booking_routes.route('/')
+@booking_routes.route('')
 @login_required
 def get_all_bookings():
     """

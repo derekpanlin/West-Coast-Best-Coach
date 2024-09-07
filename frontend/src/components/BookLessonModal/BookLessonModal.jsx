@@ -5,10 +5,12 @@ import { useDispatch, useSelector } from 'react-redux';
 import { fetchAvailabilityThunk } from '../../redux/availability';
 import { createBookingThunk, fetchBookingsThunk } from '../../redux/booking';
 import { useModal } from '../../context/Modal';
+import { useNavigate } from 'react-router-dom';
 import './BookLessonModal.css';
 
 function BookLessonModal({ coach }) {
     const dispatch = useDispatch();
+    const navigate = useNavigate();
     const { closeModal } = useModal();
 
     const [selectedDate, setSelectedDate] = useState(null);
@@ -26,15 +28,10 @@ function BookLessonModal({ coach }) {
         return bookingsByCoach ? bookingsByCoach[formattedDate]?.bookings || [] : [];
     });
 
-    // Debug: Log selected date
-    console.log("Selected Date:", selectedDate);
-
     useEffect(() => {
         if (selectedDate) {
             setLoading(true);
             const dayOfWeek = selectedDate.toLocaleDateString('en-US', { weekday: 'long' });
-
-            console.log("Fetching availability for day:", dayOfWeek);
 
             const fetchData = async () => {
                 await dispatch(fetchAvailabilityThunk(coach.id, dayOfWeek));
@@ -46,9 +43,6 @@ function BookLessonModal({ coach }) {
         }
     }, [selectedDate, dispatch, coach.id]);
 
-    // Debug: Log fetched availability and bookings
-    console.log("Coach Availability:", coachAvailability);
-    console.log("Coach Bookings:", coachBookings);
 
     useEffect(() => {
         if (selectedDate && coachAvailability.length > 0) {
@@ -57,8 +51,6 @@ function BookLessonModal({ coach }) {
             const filteredAvailability = coachAvailability.filter(
                 availability => availability.day_of_week === dayOfWeek
             );
-
-            console.log("Filtered Availability for selected day:", filteredAvailability);
 
             if (filteredAvailability.length > 0) {
                 const times = [];
@@ -70,7 +62,7 @@ function BookLessonModal({ coach }) {
                         const slotStart = formatTime(start);
                         const slotEnd = formatTime(addOneHour(start));
 
-                        console.log(`Checking slot ${slotStart} - ${slotEnd}`);
+
 
                         const isBooked = coachBookings.some(
                             booking =>
@@ -79,10 +71,7 @@ function BookLessonModal({ coach }) {
                         );
 
                         if (!isBooked) {
-                            console.log(`Slot ${slotStart} - ${slotEnd} is available`);
                             times.push(`${slotStart} - ${slotEnd}`);
-                        } else {
-                            console.log(`Slot ${slotStart} - ${slotEnd} is booked`);
                         }
 
                         start = addOneHour(start);
@@ -138,6 +127,7 @@ function BookLessonModal({ coach }) {
         if (!result.errors) {
             alert('Booking successfully created!');
             closeModal();
+            navigate('/manage-lessons');
         } else {
             alert('Failed to create booking. Please try again.');
         }
