@@ -1,12 +1,13 @@
 import { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux';
 import { getBookingsThunk } from '../../redux/booking';
-import './ManageLessonsPage.css'
+import { useModal } from '../../context/Modal';
+import './ManageLessonsPage.css';
 
 function ManageLessonsPage() {
     const dispatch = useDispatch();
-
-    const bookings = useSelector(state => state.bookings.bookings || {})
+    const bookings = useSelector(state => state.bookings.bookings || {});
+    const { setModalContent, closeModal } = useModal();
 
     const currentDate = new Date();
 
@@ -19,12 +20,13 @@ function ManageLessonsPage() {
     const pastLessons = Object.values(bookings)
         .filter(lesson => new Date(lesson.booking_date) < currentDate)
         .sort((a, b) => new Date(b.booking_date) - new Date(a.booking_date));
+
     useEffect(() => {
-        dispatch(getBookingsThunk())
-    }, [dispatch])
+        dispatch(getBookingsThunk());
+    }, [dispatch]);
 
     return (
-        <div>
+        <div className="manage-lessons-page">
             <h1>Manage Lessons</h1>
 
             <h2>Upcoming Lessons</h2>
@@ -32,9 +34,23 @@ function ManageLessonsPage() {
                 {upcomingLessons.length > 0 ? (
                     upcomingLessons.map(lesson => (
                         <div key={lesson.id} className="lesson-card">
-                            <p><strong>Coach:</strong> {lesson.coach.first_name} {lesson.coach.last_name}</p>
-                            <p><strong>Date:</strong> {lesson.booking_date}</p>
-                            <p><strong>Time:</strong> {lesson.start_time} - {lesson.end_time}</p>
+                            <div className="lesson-info">
+                                <img
+                                    src={lesson.coach.image_url}
+                                    alt={`Coach ${lesson.coach.first_name}`}
+                                    className="lesson-coach-image"
+                                />
+                                <div className="lesson-details">
+                                    <h3>Coach {lesson.coach.first_name} {lesson.coach.last_name}</h3>
+                                    <p><strong>Date:</strong> {lesson.booking_date}</p>
+                                    <p><strong>Time:</strong> {lesson.start_time} - {lesson.end_time}</p>
+                                    <p><strong>Location:</strong> {lesson.location}</p>
+                                </div>
+                            </div>
+                            <div className="lesson-actions">
+                                <button className="update-btn">Update</button>
+                                <button className="delete-btn">Delete</button>
+                            </div>
                         </div>
                     ))
                 ) : (
@@ -47,9 +63,23 @@ function ManageLessonsPage() {
                 {pastLessons.length > 0 ? (
                     pastLessons.map(lesson => (
                         <div key={lesson.id} className="lesson-card">
-                            <p><strong>Coach:</strong> {lesson.coach.first_name} {lesson.coach.last_name}</p>
-                            <p><strong>Date:</strong> {lesson.booking_date}</p>
-                            <p><strong>Time:</strong> {lesson.start_time} - {lesson.end_time}</p>
+                            <div className="lesson-info">
+                                <img
+                                    src={lesson.coach.image_url}
+                                    alt={`Coach ${lesson.coach.first_name}`}
+                                    className="lesson-coach-image"
+                                />
+                                <div className="lesson-details">
+                                    <h3>Coach {lesson.coach.first_name} {lesson.coach.last_name}</h3>
+                                    <p><strong>Date:</strong> {lesson.booking_date}</p>
+                                    <p><strong>Time:</strong> {lesson.start_time} - {lesson.end_time}</p>
+                                    <p><strong>Location:</strong> {lesson.location}</p>
+                                </div>
+                            </div>
+                            <div className="lesson-actions">
+                                <button className="update-btn">Update</button>
+                                <button className="delete-btn">Delete</button>
+                            </div>
                         </div>
                     ))
                 ) : (
