@@ -3,26 +3,28 @@ import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchAvailabilityThunk } from '../../redux/availability';
-import { createBookingThunk, fetchBookingsThunk } from '../../redux/booking';
+import { createBookingThunk, updateBookingThunk, fetchBookingsThunk } from '../../redux/booking';
 import { useModal } from '../../context/Modal';
 import { useNavigate } from 'react-router-dom';
 import './BookLessonModal.css';
 
-function BookLessonModal({ coach }) {
+function BookLessonModal({ coach, initialLesson, isUpdate = false }) {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const { closeModal } = useModal();
 
-    const [selectedDate, setSelectedDate] = useState(null);
+    // Ensure correct date handling by treating the date as a string in "YYYY-MM-DD" format
+    const [selectedDate, setSelectedDate] = useState(initialLesson ? new Date(initialLesson.booking_date) : null);
     const [availableTimes, setAvailableTimes] = useState([]);
-    const [selectedSlots, setSelectedSlots] = useState([]);
+    const [selectedSlots, setSelectedSlots] = useState(
+        initialLesson ? [`${initialLesson.start_time} - ${initialLesson.end_time}`] : []
+    );
     const [loading, setLoading] = useState(false);
     const [submitting, setSubmitting] = useState(false);
 
     const coachAvailability = useSelector(state => state.availability[coach.id] || []);
-    const formattedDate = selectedDate?.toISOString().split('T')[0];  // Format the selected date
+    const formattedDate = selectedDate?.toISOString().split('T')[0];  // Use normalized date string
 
-    // Fetch the bookings from bookingsByDate with the correct coach ID and formatted date
     const coachBookings = useSelector(state => {
         const bookingsByCoach = state.bookings.bookingsByDate[coach.id];
         return bookingsByCoach ? bookingsByCoach[formattedDate]?.bookings || [] : [];
@@ -43,7 +45,6 @@ function BookLessonModal({ coach }) {
         }
     }, [selectedDate, dispatch, coach.id]);
 
-
     useEffect(() => {
         if (selectedDate && coachAvailability.length > 0) {
             const dayOfWeek = selectedDate.toLocaleDateString('en-US', { weekday: 'long' });
@@ -61,8 +62,6 @@ function BookLessonModal({ coach }) {
                     while (start < end) {
                         const slotStart = formatTime(start);
                         const slotEnd = formatTime(addOneHour(start));
-
-
 
                         const isBooked = coachBookings.some(
                             booking =>
@@ -107,7 +106,7 @@ function BookLessonModal({ coach }) {
         }
     };
 
-    const handleBookLesson = async () => {
+    const handleBookOrUpdateLesson = async () => {
         if (!selectedDate || selectedSlots.length === 0) {
             return;
         }
@@ -122,27 +121,33 @@ function BookLessonModal({ coach }) {
             })
         };
 
-        const result = await dispatch(createBookingThunk(bookingData));
+        let result;
+        if (isUpdate && initialLesson) {
+            // If updating, use updateBookingThunk and include the lesson ID
+            bookingData.lessonId = initialLesson.id;
+            result = await dispatch(updateBookingThunk(bookingData));
+        } else {
+            result = await dispatch(createBookingThunk(bookingData));
+        }
 
         if (!result.errors) {
-            alert('Booking successfully created!');
             closeModal();
             navigate('/manage-lessons');
         } else {
-            alert('Failed to create booking. Please try again.');
+            alert('Failed to process the booking. Please try again.');
         }
         setSubmitting(false);
     };
 
     return (
         <div className="book-lesson-modal">
-            <h2>Book a Lesson with {coach.first_name} {coach.last_name}</h2>
+            <h2>{isUpdate ? `Update Lesson with Coach ${coach.first_name}` : `Book a Lesson with Coach ${coach.first_name}`}</h2>
             <div className="modal-content">
                 <div className="calendar-section">
                     <h3>Choose a Date</h3>
                     <DatePicker
                         selected={selectedDate}
-                        onChange={(date) => setSelectedDate(date)}
+                        onChange={(date) => setSelectedDate(new Date(date.toISOString().split('T')[0] + 'T00:00:00'))}
                         dateFormat="yyyy-MM-dd"
                         placeholderText="Select a date"
                         minDate={new Date()}
@@ -179,10 +184,10 @@ function BookLessonModal({ coach }) {
             <div className="modal-actions">
                 <button
                     className="book-button"
-                    onClick={handleBookLesson}
+                    onClick={handleBookOrUpdateLesson}
                     disabled={submitting || selectedSlots.length === 0}
                 >
-                    {submitting ? 'Booking...' : 'Book Lesson'}
+                    {submitting ? 'Processing...' : isUpdate ? 'Update Lesson' : 'Book Lesson'}
                 </button>
                 <button className="cancel-button" onClick={closeModal} disabled={submitting}>
                     Cancel

@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { getBookingsThunk } from '../../redux/booking';
+import { getBookingsThunk, deleteBookingThunk } from '../../redux/booking';
 import { useModal } from '../../context/Modal';
 import BookLessonModal from '../BookLessonModal/BookLessonModal';
 import './ManageLessonsPage.css';
@@ -27,14 +27,23 @@ function ManageLessonsPage() {
     }, [dispatch]);
 
     const handleUpdate = (lesson) => {
+        const correctDate = new Date(lesson.booking_date + 'T00:00:00');  // Ensure no timezone conversion
         setModalContent(
             <BookLessonModal
                 coach={lesson.coach}
-                initialLesson={lesson}
+                initialLesson={{ ...lesson, booking_date: correctDate }}
                 isUpdate={true}
                 onClose={closeModal}
             />
-        )
+        );
+    };
+
+    const handleDelete = async (lessonId) => {
+        const confirmed = window.confirm('Are you sure youu want to delete this lesson?')
+        if (confirmed) {
+            await dispatch(deleteBookingThunk(lessonId))
+            dispatch(getBookingsThunk())
+        }
     }
 
     return (
