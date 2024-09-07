@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getBookingsThunk } from '../../redux/booking';
 import { useModal } from '../../context/Modal';
+import BookLessonModal from '../BookLessonModal/BookLessonModal';
 import './ManageLessonsPage.css';
 
 function ManageLessonsPage() {
@@ -24,6 +25,17 @@ function ManageLessonsPage() {
     useEffect(() => {
         dispatch(getBookingsThunk());
     }, [dispatch]);
+
+    const handleUpdate = (lesson) => {
+        setModalContent(
+            <BookLessonModal
+                coach={lesson.coach}
+                initialLesson={lesson}
+                isUpdate={true}
+                onClose={closeModal}
+            />
+        )
+    }
 
     return (
         <div className="manage-lessons-page">
@@ -48,8 +60,8 @@ function ManageLessonsPage() {
                                 </div>
                             </div>
                             <div className="lesson-actions">
-                                <button className="update-btn">Update</button>
-                                <button className="delete-btn">Delete</button>
+                                <button className="update-btn" onClick={() => handleUpdate(lesson)}>Update</button>
+                                <button className="delete-btn" onClick={() => handleDelete(lesson.id)}>Delete</button>
                             </div>
                         </div>
                     ))
@@ -75,10 +87,6 @@ function ManageLessonsPage() {
                                     <p><strong>Time:</strong> {lesson.start_time} - {lesson.end_time}</p>
                                     <p><strong>Location:</strong> {lesson.location}</p>
                                 </div>
-                            </div>
-                            <div className="lesson-actions">
-                                <button className="update-btn">Update</button>
-                                <button className="delete-btn">Delete</button>
                             </div>
                         </div>
                     ))
