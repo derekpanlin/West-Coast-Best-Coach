@@ -23,7 +23,7 @@ function BookLessonModal({ coach, initialLesson, isUpdate = false }) {
     const [submitting, setSubmitting] = useState(false);
 
     const coachAvailability = useSelector(state => state.availability[coach.id] || []);
-    const formattedDate = selectedDate?.toISOString().split('T')[0];  // Use normalized date string
+    const formattedDate = selectedDate?.toISOString().split('T')[0];
 
     const coachBookings = useSelector(state => {
         const bookingsByCoach = state.bookings.bookingsByDate[coach.id];
@@ -82,6 +82,13 @@ function BookLessonModal({ coach, initialLesson, isUpdate = false }) {
             }
         }
     }, [coachAvailability, selectedDate, coachBookings]);
+
+    useEffect(() => {
+        // Clear selectedSlots when the date changes, unless we're updating an existing lesson
+        if (!isUpdate || !initialLesson || new Date(initialLesson.booking_date).toISOString().split('T')[0] !== formattedDate) {
+            setSelectedSlots([]);
+        }
+    }, [selectedDate, isUpdate, initialLesson, formattedDate]);
 
     const parseTime = (timeStr) => {
         const [hours, minutes] = timeStr.split(':');
