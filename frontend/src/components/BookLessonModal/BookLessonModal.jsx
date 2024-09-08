@@ -112,20 +112,26 @@ function BookLessonModal({ coach, initialLesson, isUpdate = false }) {
         }
 
         setSubmitting(true);
+
         const bookingData = {
             coach_id: coach.id,
             booking_date: selectedDate.toISOString().split('T')[0],
-            slots: selectedSlots.map(slot => {
+            bookings: selectedSlots.map(slot => {
                 const [start_time, end_time] = slot.split(' - ');
-                return { start_time, end_time };
+                return {
+                    id: initialLesson.id,  // Ensure id is being passed
+                    start_time,
+                    end_time,
+                    booking_date: selectedDate.toISOString().split('T')[0],
+                };
             })
         };
 
+        console.log(bookingData);  // Check what's being sent to the backend
+
         let result;
         if (isUpdate && initialLesson) {
-            // If updating, use updateBookingThunk and include the lesson ID
-            bookingData.lessonId = initialLesson.id;
-            result = await dispatch(updateBookingThunk(bookingData));
+            result = await dispatch(updateBookingThunk(bookingData));  // This will now include the id in the update data
         } else {
             result = await dispatch(createBookingThunk(bookingData));
         }

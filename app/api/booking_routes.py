@@ -131,10 +131,11 @@ def update_bookings():
         booking.booking_date = booking_date
         booking.start_time = start_time
         booking.end_time = end_time
-        db.session.commit()
 
         updated_bookings.append(booking.to_dict())
 
+    db.session.commit()
+    
     return {'bookings': updated_bookings}, 200
 
 # DELETE A BOOKING (DELETE /api/bookings/<int:id>)

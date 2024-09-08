@@ -104,7 +104,7 @@ export const updateBookingThunk = (updatedData) => async (dispatch) => {
         headers: {
             "Content-Type": "application/json",
         },
-        body: JSON.stringify({ bookings: updatedData })  // Send the array of updated bookings
+        body: JSON.stringify(updatedData)  // Send the array of updated bookings
     });
 
     if (response.ok) {
