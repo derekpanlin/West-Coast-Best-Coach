@@ -45,6 +45,8 @@ function UpdateLessonModal({ coach, initialLesson }) {
     useEffect(() => {
         if (selectedDate && coachAvailability.length > 0) {
             const dayOfWeek = selectedDate.toLocaleDateString('en-US', { weekday: 'long' });
+            const isToday = selectedDate.toDateString() === new Date().toDateString(); // Check if selected date is today
+            const currentTime = new Date(); // Current time
 
             const filteredAvailability = coachAvailability.filter(
                 availability => availability.day_of_week === dayOfWeek
@@ -66,7 +68,8 @@ function UpdateLessonModal({ coach, initialLesson }) {
                                 formatTime(parseTime(booking.end_time)) === slotEnd
                         );
 
-                        if (!isBooked) {
+                        // Only add future time slots if today
+                        if (!isBooked && (!isToday || start > currentTime)) {
                             times.push(`${slotStart} - ${slotEnd}`);
                         }
 
@@ -74,6 +77,10 @@ function UpdateLessonModal({ coach, initialLesson }) {
                     }
                 });
                 setAvailableTimes(times);
+
+                if (formattedDate !== initialLesson.booking_date) {
+                    setSelectedSlot('');
+                }
             } else {
                 setAvailableTimes([]);
             }
