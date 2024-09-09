@@ -61,6 +61,42 @@ def seed_coaches_and_availabilities():
                 {"day_of_week": "Wednesday", "start_time": "16:00", "end_time": "22:00"}
             ]
         },
+        {
+            "first_name": "Carlos",
+            "last_name": "Alcaraz",
+            "rate": 1500,
+            "bio": "Hola! My name is Carlos Alcaraz, and I am a professional tennis player from Spain. As the youngest player to reach the No. 1 spot in the ATP rankings, I have had the privilege of competing on the biggest stages in the world, including winning my first Grand Slam title at the US Open. With a powerful baseline game and relentless energy, I aim to inspire and mentor the next generation of tennis stars. Whether you're just starting or looking to refine your advanced skills, I am excited to help you reach your full potential on the court. I speak Spanish and would love to coach in both Spanish and English!",
+            "location": "San Jose",
+            "image_url": "/images/coach_profile_image/Coach-Carlos-Alcaraz.jpeg",
+            "experience_years": 10,
+            "availabilities": [
+                {"day_of_week": "Monday", "start_time": "08:00", "end_time": "12:00"},
+                {"day_of_week": "Tuesday", "start_time": "08:00", "end_time": "12:00"},
+                {"day_of_week": "Wednesday", "start_time": "08:00", "end_time": "12:00"},
+                {"day_of_week": "Thursday", "start_time": "08:00", "end_time": "12:00"},
+                {"day_of_week": "Friday", "start_time": "08:00", "end_time": "12:00"},
+                {"day_of_week": "Saturday", "start_time": "08:00", "end_time": "12:00"},
+                {"day_of_week": "Sunday", "start_time": "08:00", "end_time": "12:00"},
+            ]
+        },
+        {
+            "first_name": "Kyle",
+            "last_name": "Mccann",
+            "rate": 80,
+            "bio": "Sup my name's Kyle and I was a 4 year Division 1 athlete starter at UC Riverside from 2015-2019. During my time there, I had the record for all time singles and doubles combined wins. Currently I still compete in 5.0 mens leagues. In my free time I love to work out, golf, and travel. I only speak English but can do an awesome Irish accent if you prefer. Excited to work with you! ",
+            "location": "Irvine",
+            "image_url": "/images/coach_profile_image/Coach-Kyle.jpeg",
+            "experience_years": 8,
+            "availabilities": [
+                {"day_of_week": "Monday", "start_time": "08:00", "end_time": "12:00"},
+                {"day_of_week": "Tuesday", "start_time": "08:00", "end_time": "12:00"},
+                {"day_of_week": "Wednesday", "start_time": "08:00", "end_time": "12:00"},
+                {"day_of_week": "Thursday", "start_time": "08:00", "end_time": "12:00"},
+                {"day_of_week": "Friday", "start_time": "08:00", "end_time": "12:00"},
+                {"day_of_week": "Saturday", "start_time": "08:00", "end_time": "12:00"},
+                {"day_of_week": "Sunday", "start_time": "08:00", "end_time": "12:00"},
+            ]
+        },
         
     ]
 
