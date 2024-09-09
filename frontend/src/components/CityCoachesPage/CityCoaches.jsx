@@ -72,7 +72,7 @@ const CityCoaches = () => {
                         </div>
                     ))
                 ) : (
-                    <p>No coaches available in {capitalizedCity}.</p>
+                    <p id='no-coaches-available'>No coaches available in {capitalizedCity}.</p>
                 )}
             </div>
         </div>

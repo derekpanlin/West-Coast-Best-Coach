@@ -16,9 +16,23 @@ h1 {
 
 .coach-list {
     max-width: 800px;
-    /* Limit the width to make it look cleaner */
     margin: 0 auto;
     padding: 0 20px;
+}
+
+/* No Coaches Available Message */
+#no-coaches-available {
+    font-size: 20px;
+    font-weight: 500;
+    color: #333;
+    margin-top: 10px;
+    margin-bottom: 30px;
+    text-align: center;
+    padding: 10px;
+    background-color: #f0f4f8;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    display: inline-block;
 }
 
 /* Individual Coach Card */
