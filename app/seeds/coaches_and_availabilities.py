@@ -33,6 +33,35 @@ def seed_coaches_and_availabilities():
                 {"day_of_week": "Saturday", "start_time": "20:00", "end_time": "22:00"},
             ]
         },
+        {
+            "first_name": "Roger",
+            "last_name": "Federer",
+            "rate": 1000,
+            "bio": "Hi, I’m Roger Federer, a professional tennis player with over two decades of experience competing at the highest level. Throughout my career, I’ve won 20 Grand Slam singles titles and have held the No. 1 spot in the ATP rankings for a record 310 weeks. My passion for tennis goes beyond competition—I love sharing my knowledge and expertise with others. Whether you're just starting out or looking to refine your skills, I’m excited to help you elevate your game on the court.",
+            "location": "San Francisco",
+            "image_url": "/images/coach_profile_image/Coach-Roger-Federer.jpeg",
+            "experience_years": 20,
+            "availabilities": [
+                {"day_of_week": "Friday", "start_time": "10:00", "end_time": "20:00"},
+                {"day_of_week": "Saturday", "start_time": "10:00", "end_time": "20:00"},
+                {"day_of_week": "Sunday", "start_time": "10:00", "end_time": "20:00"}
+            ]
+        },
+        {
+            "first_name": "Kei",
+            "last_name": "Nishikori",
+            "rate": 500,
+            "bio": "Hi, I’m Kei Nishikori, a professional tennis player from Japan. Over the course of my career, I’ve reached a career-high singles ranking of No. 4 in the world and have made it to the finals of the US Open. I’m the first Asian male to compete in a Grand Slam final, and I have won 12 ATP Tour titles. With a passion for the game and a deep understanding of professional-level tennis, I’m here to help you improve your technique and mindset on the court.",
+            "location": "Los Angeles",
+            "image_url": "/images/coach_profile_image/Coach-Nishikori.jpeg",
+            "experience_years": 15,
+            "availabilities": [
+                {"day_of_week": "Monday", "start_time": "16:00", "end_time": "22:00"},
+                {"day_of_week": "Tuesday", "start_time": "16:00", "end_time": "22:00"},
+                {"day_of_week": "Wednesday", "start_time": "16:00", "end_time": "22:00"}
+            ]
+        },
+        
     ]
 
     try:
