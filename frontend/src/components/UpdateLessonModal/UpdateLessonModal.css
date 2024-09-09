@@ -1,0 +1,114 @@
+/* UpdateLessonModal.css */
+
+.update-lesson-modal {
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    width: 100%;
+    max-width: 500px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.update-lesson-modal h2 {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 20px;
+    text-align: center;
+    color: #333;
+}
+
+.modal-content {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.calendar-section,
+.timeslots-section {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.calendar-section h3,
+.timeslots-section h3 {
+    font-size: 18px;
+    font-weight: 500;
+    color: #333;
+}
+
+.timeslots {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.timeslot-button {
+    background-color: #f0f0f0;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 10px 15px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.timeslot-button:hover {
+    background-color: #ddd;
+}
+
+.timeslot-button.selected {
+    background-color: #4CAF50;
+    color: white;
+    border-color: #4CAF50;
+}
+
+.error-message {
+    color: red;
+    font-size: 14px;
+    margin-top: 5px;
+}
+
+.modal-actions {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+.book-button,
+.cancel-button {
+    padding: 10px 20px;
+    font-size: 16px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.book-button {
+    background-color: #4CAF50;
+    color: white;
+}
+
+.book-button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+}
+
+.cancel-button {
+    background-color: #f44336;
+    color: white;
+}
+
+.cancel-button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+}
+
+.book-button:hover:not(:disabled) {
+    background-color: #45a049;
+}
+
+.cancel-button:hover:not(:disabled) {
+    background-color: #d32f2f;
+}

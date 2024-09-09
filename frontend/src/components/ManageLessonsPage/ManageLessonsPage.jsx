@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getBookingsThunk, deleteBookingThunk } from '../../redux/booking';
 import { useModal } from '../../context/Modal';
-import BookLessonModal from '../BookLessonModal/BookLessonModal';
+import UpdateLessonModal from '../UpdateLessonModal/UpdateLessonModal';
 import './ManageLessonsPage.css';
 
 function ManageLessonsPage() {
@@ -10,36 +10,60 @@ function ManageLessonsPage() {
     const bookings = useSelector(state => state.bookings.bookings || {});
     const { setModalContent, closeModal } = useModal();
 
-    const currentDate = new Date();
+    const currentDateTime = new Date(); // Get the full current date and time
 
-    // Filter upcoming lessons and sort by date (soonest first)
+    // Filter upcoming lessons and sort by date (soonest first), then by start time
     const upcomingLessons = Object.values(bookings)
-        .filter(lesson => new Date(lesson.booking_date) >= currentDate)
-        .sort((a, b) => new Date(a.booking_date) - new Date(b.booking_date));
+        .filter(lesson => {
+            const lessonDateTime = new Date(`${lesson.booking_date}T${lesson.start_time}`);
+            return lessonDateTime >= currentDateTime; // Compare both date and time
+        })
+        .sort((a, b) => {
+            const dateComparison = new Date(`${a.booking_date}T${a.start_time}`) - new Date(`${b.booking_date}T${b.start_time}`);
+            return dateComparison;
+        });
 
-    // Filter past lessons and sort by date (latest first)
+    // Filter past lessons and sort by date (latest first), then by start time
     const pastLessons = Object.values(bookings)
-        .filter(lesson => new Date(lesson.booking_date) < currentDate)
-        .sort((a, b) => new Date(b.booking_date) - new Date(a.booking_date));
+        .filter(lesson => {
+            const lessonDateTime = new Date(`${lesson.booking_date}T${lesson.start_time}`);
+            return lessonDateTime < currentDateTime; // Compare both date and time
+        })
+        .sort((a, b) => {
+            const dateComparison = new Date(`${b.booking_date}T${b.start_time}`) - new Date(`${a.booking_date}T${a.start_time}`);
+            return dateComparison;
+        });
+
 
     useEffect(() => {
         dispatch(getBookingsThunk());
     }, [dispatch]);
 
+    // const handleUpdate = (lesson) => {
+    //     const correctDate = new Date(lesson.booking_date + 'T00:00:00');  // Ensure no timezone conversion
+    //     setModalContent(
+    //         <BookLessonModal
+    //             coach={lesson.coach}
+    //             initialLesson={{ ...lesson, booking_date: correctDate }}
+    //             isUpdate={true}
+    //             onClose={closeModal}
+    //         />
+    //     );
+    // };
+
     const handleUpdate = (lesson) => {
         const correctDate = new Date(lesson.booking_date + 'T00:00:00');  // Ensure no timezone conversion
         setModalContent(
-            <BookLessonModal
+            <UpdateLessonModal
                 coach={lesson.coach}
                 initialLesson={{ ...lesson, booking_date: correctDate }}
-                isUpdate={true}
                 onClose={closeModal}
             />
         );
     };
 
     const handleDelete = async (lessonId) => {
-        const confirmed = window.confirm('Are you sure youu want to delete this lesson?')
+        const confirmed = window.confirm('Are you sure you want to delete this lesson?')
         if (confirmed) {
             await dispatch(deleteBookingThunk(lessonId))
             dispatch(getBookingsThunk())

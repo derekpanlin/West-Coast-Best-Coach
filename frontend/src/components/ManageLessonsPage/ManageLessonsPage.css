@@ -78,7 +78,7 @@ h2 {
 
 .update-btn,
 .delete-btn {
-    background-color: #007bff;
+    background-color: #18ae5e;
     color: white;
     padding: 8px 12px;
     border: none;
@@ -89,7 +89,7 @@ h2 {
 }
 
 .update-btn:hover {
-    background-color: #0056b3;
+    background-color: #258e54;
 }
 
 .delete-btn {
