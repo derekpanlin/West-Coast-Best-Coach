@@ -93,50 +93,102 @@ def get_booking(id):
     
     return booking.to_dict(), 200
 
-# UPDATE MULTIPLE BOOKINGS (PUT /api/bookings)
-@booking_routes.route('', methods=['PUT'])
+# UPDATE A SINGLE BOOKING (PUT /api/bookings/<int:id>)
+@booking_routes.route('/<int:id>', methods=['PUT'])
 @login_required
-def update_bookings():
+def update_booking(id):
     """
-    Update multiple bookings when logged in, with validation for all slots.
+    Update a single booking when logged in, with validation for the new time slot.
     """
     data = request.get_json()
-    bookings_to_update = data.get('bookings', [])
 
-    updated_bookings = []
+    # Fetch the booking by ID
+    booking = Booking.query.get(id)
 
-    for booking_data in bookings_to_update:
-        booking_id = booking_data.get('id')
-        booking = Booking.query.get(booking_id)
+    if not booking or booking.user_id != current_user.id:
+        return {'errors': f'Booking with ID {id} not found or you do not have permission to update it'}, 404
 
-        if not booking or booking.user_id != current_user.id:
-            return {'errors': f'Booking with ID {booking_id} not found or you do not have permission to update it'}, 404
+    # Validate the new time slot
+    start_time = data['start_time']
+    end_time = data['end_time']
+    booking_date = datetime.strptime(data['booking_date'], '%Y-%m-%d').date()
+    day_of_week = booking_date.strftime('%A')
 
-        # Validate and update each booking similarly as in create_booking
-        start_time = booking_data['start_time']
-        end_time = booking_data['end_time']
-        booking_date = datetime.strptime(booking_data['booking_date'], '%Y-%m-%d').date()
-        day_of_week = booking_date.strftime('%A')
+    # Check coach availability for the new time slot
+    availability = Availability.query.filter_by(coach_id=booking.coach_id, day_of_week=day_of_week).first()
 
-        # Check availability and conflicts (similar to the POST route)
-        availability = Availability.query.filter_by(coach_id=booking.coach_id, day_of_week=day_of_week).first()
+    if not availability:
+        return {'errors': f'The coach is not available on {day_of_week}s'}, 400
 
-        if not availability:
-            return {'errors': f'The coach is not available on {day_of_week}s'}, 400
+    # Ensure the new time slot is within the coach's available hours
+    if not (availability.start_time <= start_time < availability.end_time and
+            availability.start_time < end_time <= availability.end_time):
+        return {'errors': f'Time slot {start_time} - {end_time} is outside of the coach\'s available hours'}, 400
 
-        if not (availability.start_time <= start_time < availability.end_time and
-                availability.start_time < end_time <= availability.end_time):
-            return {'errors': f'Time slot {start_time} - {end_time} is outside of the coach\'s available hours'}, 400
+    # Check for any conflicts with existing bookings at the new time
+    existing_booking = Booking.query.filter_by(coach_id=booking.coach_id, booking_date=booking_date).filter(
+        db.or_(
+            db.and_(Booking.start_time <= start_time, Booking.end_time > start_time),
+            db.and_(Booking.start_time < end_time, Booking.end_time >= end_time)
+        )
+    ).first()
 
-        booking.booking_date = booking_date
-        booking.start_time = start_time
-        booking.end_time = end_time
+    if existing_booking and existing_booking.id != booking.id:
+        return {'errors': f'Time slot {start_time} - {end_time} is already booked by another lesson'}, 400
 
-        updated_bookings.append(booking.to_dict())
+    # Update the booking with the new time slot and date
+    booking.booking_date = booking_date
+    booking.start_time = start_time
+    booking.end_time = end_time
 
     db.session.commit()
+
+    return booking.to_dict(), 200
+
+# # UPDATE MULTIPLE BOOKINGS (PUT /api/bookings)
+# @booking_routes.route('', methods=['PUT'])
+# @login_required
+# def update_bookings():
+#     """
+#     Update multiple bookings when logged in, with validation for all slots.
+#     """
+#     data = request.get_json()
+#     bookings_to_update = data.get('bookings', [])
+
+#     updated_bookings = []
+
+#     for booking_data in bookings_to_update:
+#         booking_id = booking_data.get('id')
+#         booking = Booking.query.get(booking_id)
+
+#         if not booking or booking.user_id != current_user.id:
+#             return {'errors': f'Booking with ID {booking_id} not found or you do not have permission to update it'}, 404
+
+#         # Validate and update each booking similarly as in create_booking
+#         start_time = booking_data['start_time']
+#         end_time = booking_data['end_time']
+#         booking_date = datetime.strptime(booking_data['booking_date'], '%Y-%m-%d').date()
+#         day_of_week = booking_date.strftime('%A')
+
+#         # Check availability and conflicts (similar to the POST route)
+#         availability = Availability.query.filter_by(coach_id=booking.coach_id, day_of_week=day_of_week).first()
+
+#         if not availability:
+#             return {'errors': f'The coach is not available on {day_of_week}s'}, 400
+
+#         if not (availability.start_time <= start_time < availability.end_time and
+#                 availability.start_time < end_time <= availability.end_time):
+#             return {'errors': f'Time slot {start_time} - {end_time} is outside of the coach\'s available hours'}, 400
+
+#         booking.booking_date = booking_date
+#         booking.start_time = start_time
+#         booking.end_time = end_time
+
+#         updated_bookings.append(booking.to_dict())
+
+#     db.session.commit()
     
-    return {'bookings': updated_bookings}, 200
+#     return {'bookings': updated_bookings}, 200
 
 # DELETE A BOOKING (DELETE /api/bookings/<int:id>)
 @booking_routes.route('/<int:id>', methods=['DELETE'])

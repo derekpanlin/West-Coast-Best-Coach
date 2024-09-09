@@ -119,7 +119,7 @@ function BookLessonModal({ coach, initialLesson, isUpdate = false }) {
             slots: selectedSlots.map(slot => {
                 const [start_time, end_time] = slot.split(' - ');
                 return {
-                    id: initialLesson ? initialLesson.id : null,  // Ensure id is being passed
+                    id: initialLesson?.id || null,  // Ensure id is being passed
                     start_time,
                     end_time,
                     booking_date: selectedDate.toISOString().split('T')[0],
@@ -127,7 +127,7 @@ function BookLessonModal({ coach, initialLesson, isUpdate = false }) {
             })
         };
 
-        console.log(bookingData);  // Check what's being sent to the backend
+        console.log('Booking Data to be sent for update:', bookingData);
 
         let result;
         if (isUpdate && initialLesson) {
@@ -135,6 +135,8 @@ function BookLessonModal({ coach, initialLesson, isUpdate = false }) {
         } else {
             result = await dispatch(createBookingThunk(bookingData));
         }
+
+        console.log('Update Result:', result);
 
         if (!result.errors) {
             closeModal();

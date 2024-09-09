@@ -11,6 +11,7 @@ function ManageLessonsPage() {
     const { setModalContent, closeModal } = useModal();
 
     const currentDate = new Date();
+    currentDate.setHours(0, 0, 0, 0); // Set time to 00:00:00
 
     // Filter upcoming lessons and sort by date (soonest first)
     const upcomingLessons = Object.values(bookings)
@@ -39,7 +40,7 @@ function ManageLessonsPage() {
     };
 
     const handleDelete = async (lessonId) => {
-        const confirmed = window.confirm('Are you sure youu want to delete this lesson?')
+        const confirmed = window.confirm('Are you sure you want to delete this lesson?')
         if (confirmed) {
             await dispatch(deleteBookingThunk(lessonId))
             dispatch(getBookingsThunk())
