@@ -3,7 +3,7 @@ import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchAvailabilityThunk } from '../../redux/availability';
-import { updateBookingThunk, fetchBookingsThunk } from '../../redux/booking';
+import { updateBookingThunk, fetchBookingsThunk, getBookingsThunk } from '../../redux/booking';
 import { useModal } from '../../context/Modal';
 import { useNavigate } from 'react-router-dom';
 import './UpdateLessonModal.css';
@@ -114,6 +114,8 @@ function UpdateLessonModal({ coach, initialLesson }) {
         const result = await dispatch(updateBookingThunk(initialLesson.id, updatedData));
 
         if (!result.errors) {
+            await dispatch(getBookingsThunk());
+
             closeModal();
             navigate('/manage-lessons');
         } else {
