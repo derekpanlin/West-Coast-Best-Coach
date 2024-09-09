@@ -4,6 +4,8 @@
     margin: 0 auto;
     padding: 20px;
     font-family: 'Roboto', sans-serif;
+    text-align: center;
+
 }
 
 h1 {
@@ -17,6 +19,7 @@ h1 {
 h2 {
     font-size: 28px;
     font-weight: 600;
+    margin-top: 60px;
     margin-bottom: 20px;
     color: #333;
 }
@@ -98,4 +101,19 @@ h2 {
 
 .delete-btn:hover {
     background-color: #c82333;
+}
+
+#no-lessons-tag {
+    font-size: 20px;
+    font-weight: 500;
+    color: #333;
+    margin-top: 10px;
+    margin-bottom: 30px;
+    text-align: center;
+    padding: 10px;
+    background-color: #f0f4f8;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    display: inline-block;
+
 }

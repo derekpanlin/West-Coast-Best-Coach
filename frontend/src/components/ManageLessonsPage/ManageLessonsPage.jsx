@@ -99,7 +99,7 @@ function ManageLessonsPage() {
                         </div>
                     ))
                 ) : (
-                    <p>No upcoming lessons.</p>
+                    <p id='no-lessons-tag'>No upcoming lessons.</p>
                 )}
             </div>
 
@@ -124,7 +124,7 @@ function ManageLessonsPage() {
                         </div>
                     ))
                 ) : (
-                    <p>No past lessons.</p>
+                    <p id='no-lessons-tag'>No past lessons.</p>
                 )}
             </div>
         </div>
