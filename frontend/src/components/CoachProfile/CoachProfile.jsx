@@ -41,6 +41,7 @@ function CoachProfile() {
         setModalContent(
             <BookLessonModal
                 coach={coach}
+                initialLesson={null}
                 onClose={closeModal}
             />
         )

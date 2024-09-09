@@ -116,10 +116,10 @@ function BookLessonModal({ coach, initialLesson, isUpdate = false }) {
         const bookingData = {
             coach_id: coach.id,
             booking_date: selectedDate.toISOString().split('T')[0],
-            bookings: selectedSlots.map(slot => {
+            slots: selectedSlots.map(slot => {
                 const [start_time, end_time] = slot.split(' - ');
                 return {
-                    id: initialLesson.id,  // Ensure id is being passed
+                    id: initialLesson ? initialLesson.id : null,  // Ensure id is being passed
                     start_time,
                     end_time,
                     booking_date: selectedDate.toISOString().split('T')[0],
