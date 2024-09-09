@@ -7,7 +7,7 @@
     margin: 0 auto;
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
     position: relative;
-    font-family: 'Roboto', sans-serif;
+    font-family: 'Inter', sans-serif;
 }
 
 /* Header Styling */
@@ -20,6 +20,14 @@
     letter-spacing: 1.5px;
 }
 
+/* Header Styling for H2 */
+.coach-availability-modal h2 {
+    font-size: 22px;
+    color: #333;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
 /* List Styling */
 .coach-availability-modal ul {
     list-style-type: none;
@@ -28,7 +36,10 @@
 }
 
 /* List Item Styling */
-.coach-availability-modal li {
+.coach-availability-modal .availability-slot {
+    display: flex;
+    justify-content: space-between;
+    /* This pushes the items to opposite ends */
     padding: 15px;
     margin-bottom: 10px;
     font-size: 18px;
@@ -38,10 +49,20 @@
     font-weight: 500;
 }
 
+/* Day Styling */
+.coach-availability-modal .day {
+    font-weight: 600;
+}
+
+/* Time Styling */
+.coach-availability-modal .time {
+    color: #777;
+    font-style: italic;
+}
+
 /* Close Button Styling */
 .coach-availability-modal button {
     background-color: #bc2c1f;
-    /* Light red background */
     color: white;
     padding: 12px 20px;
     border: none;
@@ -55,10 +76,8 @@
     transition: background-color 0.3s ease;
 }
 
-/* Button Hover and Focus Styling */
 .coach-availability-modal button:hover {
     background-color: #cf5656;
-    /* Slightly darker red on hover */
 }
 
 .coach-availability-modal button:focus {

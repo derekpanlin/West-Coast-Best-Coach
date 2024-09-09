@@ -98,21 +98,26 @@ export const fetchBookingsThunk = (coachId, date) => async (dispatch) => {
     }
 };
 
-export const updateBookingThunk = (updatedData) => async (dispatch) => {
-    const response = await fetch('/api/bookings', {
+export const updateBookingThunk = (bookingId, updatedData) => async (dispatch) => {
+    console.log('Sending updated booking data:', updatedData);
+
+    const response = await fetch(`/api/bookings/${bookingId}`, {
         method: 'PUT',
         headers: {
             "Content-Type": "application/json",
         },
-        body: JSON.stringify({ bookings: updatedData })  // Send the array of updated bookings
+        body: JSON.stringify(updatedData)  // Send the updated booking data
     });
 
     if (response.ok) {
-        const updatedBookings = await response.json();
-        dispatch(updateBooking(updatedBookings.bookings));  // Handle array of bookings
-        return updatedBookings;
+        const updatedBooking = await response.json();
+        console.log('Updated booking received:', updatedBooking);
+
+        dispatch(updateBooking([updatedBooking]));  // Dispatch the updated booking to the store
+        return updatedBooking;
     } else {
         const errors = await response.json();
+        console.log('Update errors:', errors);
         return errors;
     }
 }
@@ -167,14 +172,16 @@ export const bookingsReducer = (state = initialState, action) => {
         }
         case UPDATE_BOOKING: {
             const newState = { ...state, bookings: { ...state.bookings } };
-            // Loop through each updated booking in the payload array
-            action.payload.forEach(booking => {
-                newState.bookings[booking.id] = booking;  // Update each booking in the state
-                // Update singleBooking if it matches any updated booking
-                if (state.singleBooking.id === booking.id) {
-                    newState.singleBooking = booking;
-                }
-            });
+
+            const updatedBooking = action.payload;  // Now it's a single booking object
+
+            // Update the booking in the bookings state
+            newState.bookings[updatedBooking.id] = updatedBooking;
+
+            // If the singleBooking is being updated, ensure it's also updated
+            if (state.singleBooking.id === updatedBooking.id) {
+                newState.singleBooking = updatedBooking;
+            }
 
             return newState;
         }
