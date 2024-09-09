@@ -66,10 +66,12 @@ function BookLessonModal({ coach, initialLesson, isUpdate = false }) {
                         const isBooked = coachBookings.some(
                             booking =>
                                 formatTime(parseTime(booking.start_time)) === slotStart &&
-                                formatTime(parseTime(booking.end_time)) === slotEnd
+                                formatTime(parseTime(booking.end_time)) === slotEnd &&
+                                booking.id !== initialLesson?.id // Exclude current booking time slot from validation check
                         );
 
-                        if (!isBooked) {
+                        if (!isBooked || (isUpdate && initialLesson && slotStart === initialLesson.start_time)) {
+                            // Ensure the original booked time is available for selection
                             times.push(`${slotStart} - ${slotEnd}`);
                         }
 
@@ -81,7 +83,7 @@ function BookLessonModal({ coach, initialLesson, isUpdate = false }) {
                 setAvailableTimes([]);
             }
         }
-    }, [coachAvailability, selectedDate, coachBookings]);
+    }, [coachAvailability, selectedDate, coachBookings, isUpdate, initialLesson]);
 
     useEffect(() => {
         // Clear selectedSlots when the date changes, unless we're updating an existing lesson
@@ -123,10 +125,10 @@ function BookLessonModal({ coach, initialLesson, isUpdate = false }) {
         const bookingData = {
             coach_id: coach.id,
             booking_date: selectedDate.toISOString().split('T')[0],
-            bookings: selectedSlots.map(slot => {
+            slots: selectedSlots.map(slot => {
                 const [start_time, end_time] = slot.split(' - ');
                 return {
-                    id: initialLesson.id,  // Ensure id is being passed
+                    id: initialLesson?.id && slot === `${initialLesson.start_time} - ${initialLesson.end_time}` ? initialLesson.id : undefined, // Pass id for existing slot, undefined for new
                     start_time,
                     end_time,
                     booking_date: selectedDate.toISOString().split('T')[0],
@@ -134,11 +136,9 @@ function BookLessonModal({ coach, initialLesson, isUpdate = false }) {
             })
         };
 
-        console.log(bookingData);  // Check what's being sent to the backend
-
         let result;
-        if (isUpdate && initialLesson) {
-            result = await dispatch(updateBookingThunk(bookingData));  // This will now include the id in the update data
+        if (isUpdate) {
+            result = await dispatch(updateBookingThunk(bookingData));  // This handles both updates and additional bookings
         } else {
             result = await dispatch(createBookingThunk(bookingData));
         }
