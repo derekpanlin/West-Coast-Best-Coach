@@ -418,7 +418,7 @@ function BookLessonModal({ coach }) {
                     onClick={handleBookLesson}
                     disabled={submitting || selectedSlots.length === 0}
                 >
-                    {submitting ? 'Processing...' : 'Book Lesson'}
+                    {submitting ? 'Processing...' : selectedSlots.length > 1 ? 'Book Lessons' : 'Book Lesson'}
                 </button>
                 <button className="cancel-button" onClick={closeModal} disabled={submitting}>
                     Cancel
