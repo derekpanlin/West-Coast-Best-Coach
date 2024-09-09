@@ -113,13 +113,14 @@ function BookLessonModal({ coach, initialLesson, isUpdate = false }) {
 
         setSubmitting(true);
 
+        // Construct booking data
         const bookingData = {
             coach_id: coach.id,
             booking_date: selectedDate.toISOString().split('T')[0],
             slots: selectedSlots.map(slot => {
                 const [start_time, end_time] = slot.split(' - ');
                 return {
-                    id: initialLesson?.id || null,  // Ensure id is being passed
+                    id: initialLesson?.id || null,  // Ensure the current lesson ID is being passed for updates
                     start_time,
                     end_time,
                     booking_date: selectedDate.toISOString().split('T')[0],
@@ -127,23 +128,36 @@ function BookLessonModal({ coach, initialLesson, isUpdate = false }) {
             })
         };
 
-        console.log('Booking Data to be sent for update:', bookingData);
-
-        let result;
+        // For updating a lesson, ensure only one time slot can be selected
         if (isUpdate && initialLesson) {
-            result = await dispatch(updateBookingThunk(bookingData));  // This will now include the id in the update data
+            // Check that only one time slot has been selected
+            if (selectedSlots.length !== 1) {
+                alert('You can only update to one time slot.');
+                setSubmitting(false);
+                return;
+            }
+
+            // Update the current booking
+            const updatedData = bookingData.slots[0];  // Send only the selected slot for update
+            const result = await dispatch(updateBookingThunk(initialLesson.id, updatedData));  // Update the existing booking
+
+            if (!result.errors) {
+                closeModal();
+                navigate('/manage-lessons');
+            } else {
+                alert('Failed to update booking. Please try again.');
+            }
         } else {
-            result = await dispatch(createBookingThunk(bookingData));
+            // Handle new booking creation if not an update
+            const result = await dispatch(createBookingThunk(bookingData));
+            if (!result.errors) {
+                closeModal();
+                navigate('/manage-lessons');
+            } else {
+                alert('Failed to create booking. Please try again.');
+            }
         }
 
-        console.log('Update Result:', result);
-
-        if (!result.errors) {
-            closeModal();
-            navigate('/manage-lessons');
-        } else {
-            alert('Failed to process the booking. Please try again.');
-        }
         setSubmitting(false);
     };
 

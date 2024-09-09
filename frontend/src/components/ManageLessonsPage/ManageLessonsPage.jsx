@@ -13,15 +13,29 @@ function ManageLessonsPage() {
     const currentDate = new Date();
     currentDate.setHours(0, 0, 0, 0); // Set time to 00:00:00
 
-    // Filter upcoming lessons and sort by date (soonest first)
+    // Filter upcoming lessons and sort by date (soonest first), then by start time
     const upcomingLessons = Object.values(bookings)
         .filter(lesson => new Date(lesson.booking_date) >= currentDate)
-        .sort((a, b) => new Date(a.booking_date) - new Date(b.booking_date));
+        .sort((a, b) => {
+            const dateComparison = new Date(a.booking_date) - new Date(b.booking_date);
+            if (dateComparison !== 0) {
+                return dateComparison;
+            }
+            // If booking_date is the same, sort by start_time
+            return a.start_time.localeCompare(b.start_time);
+        });
 
-    // Filter past lessons and sort by date (latest first)
+    // Filter past lessons and sort by date (latest first), then by start time
     const pastLessons = Object.values(bookings)
         .filter(lesson => new Date(lesson.booking_date) < currentDate)
-        .sort((a, b) => new Date(b.booking_date) - new Date(a.booking_date));
+        .sort((a, b) => {
+            const dateComparison = new Date(b.booking_date) - new Date(a.booking_date);
+            if (dateComparison !== 0) {
+                return dateComparison;
+            }
+            // If booking_date is the same, sort by start_time
+            return b.start_time.localeCompare(a.start_time);
+        });
 
     useEffect(() => {
         dispatch(getBookingsThunk());
