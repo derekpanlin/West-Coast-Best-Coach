@@ -21,8 +21,7 @@ function BookLessonModal({ coach }) {
     const [submitting, setSubmitting] = useState(false);
 
     const coachAvailability = useSelector(state => state.availability[coach.id] || []);
-    // const formattedDate = selectedDate?.toISOString().split('T')[0];
-    const formattedDate = selectedDate?.toLocaleDateString('en-CA'); // Format: yyyy-mm-dd
+    const formattedDate = selectedDate?.toLocaleDateString('en-CA');
 
     const coachBookings = useSelector(state => {
         const bookingsByCoach = state.bookings.bookingsByDate[coach.id];
@@ -51,16 +50,9 @@ function BookLessonModal({ coach }) {
             const isToday = new Date().toDateString() === selectedDate.toDateString();
             const currentTime = new Date(); // Current time
 
-            console.log('Day of Week:', dayOfWeek);
-            console.log('Selected Date:', selectedDate);
-            console.log('Is Today:', isToday);
-            console.log('Coach Availability:', coachAvailability);
-
             const filteredAvailability = coachAvailability.filter(
                 availability => availability.day_of_week === dayOfWeek
             );
-
-            console.log('Filtered Availability:', filteredAvailability);
 
             if (filteredAvailability.length > 0) {
                 const times = [];
