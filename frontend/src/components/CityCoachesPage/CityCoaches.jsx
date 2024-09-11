@@ -47,13 +47,15 @@ const CityCoaches = () => {
         );
     };
 
+    const sortedCoaches = coaches.sort((a, b) => a.rate - b.rate)
+
 
     return (
         <div>
             <h1>Coaches in {capitalizedCity}</h1>
             <div className="coach-list">
-                {coaches.length > 0 ? (
-                    coaches.map((coach) => (
+                {sortedCoaches.length > 0 ? (
+                    sortedCoaches.map((coach) => (
                         <div key={coach.id} className="coach-card">
                             <div className="coach-info">
                                 <img src={coach.image_url} alt={`Coach ${coach.first_name}`} className="coach-image" />
@@ -72,7 +74,7 @@ const CityCoaches = () => {
                         </div>
                     ))
                 ) : (
-                    <p>No coaches available in {capitalizedCity}.</p>
+                    <p id='no-coaches-available'>No coaches available in {capitalizedCity}.</p>
                 )}
             </div>
         </div>

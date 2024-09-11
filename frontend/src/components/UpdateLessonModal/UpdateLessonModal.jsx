@@ -20,7 +20,8 @@ function UpdateLessonModal({ coach, initialLesson }) {
     const [submitting, setSubmitting] = useState(false);
 
     const coachAvailability = useSelector(state => state.availability[coach.id] || []);
-    const formattedDate = selectedDate.toISOString().split('T')[0];  // Use normalized date string
+    // const formattedDate = selectedDate.toISOString().split('T')[0];  // Use normalized date string
+    const formattedDate = selectedDate.toLocaleDateString('en-CA');  // Format: yyyy-mm-dd in local time
 
     const coachBookings = useSelector(state => {
         const bookingsByCoach = state.bookings.bookingsByDate[coach.id];
@@ -45,10 +46,16 @@ function UpdateLessonModal({ coach, initialLesson }) {
     useEffect(() => {
         if (selectedDate && coachAvailability.length > 0) {
             const dayOfWeek = selectedDate.toLocaleDateString('en-US', { weekday: 'long' });
+            const isToday = selectedDate.toDateString() === new Date().toDateString(); // Check if selected date is today
+            const currentTime = new Date(); // Current time
 
             const filteredAvailability = coachAvailability.filter(
                 availability => availability.day_of_week === dayOfWeek
             );
+            console.log('Day of Week:', dayOfWeek);
+            console.log('Selected Date:', selectedDate);
+            console.log('Is Today:', isToday);
+            console.log('Coach Availability:', coachAvailability);
 
             if (filteredAvailability.length > 0) {
                 const times = [];
@@ -66,7 +73,8 @@ function UpdateLessonModal({ coach, initialLesson }) {
                                 formatTime(parseTime(booking.end_time)) === slotEnd
                         );
 
-                        if (!isBooked) {
+                        // Only add future time slots if today
+                        if (!isBooked && (!isToday || start > currentTime)) {
                             times.push(`${slotStart} - ${slotEnd}`);
                         }
 
@@ -74,6 +82,10 @@ function UpdateLessonModal({ coach, initialLesson }) {
                     }
                 });
                 setAvailableTimes(times);
+
+                if (formattedDate !== initialLesson.booking_date) {
+                    setSelectedSlot('');
+                }
             } else {
                 setAvailableTimes([]);
             }
@@ -104,12 +116,17 @@ function UpdateLessonModal({ coach, initialLesson }) {
 
         // Construct updated booking data
         const [start_time, end_time] = selectedSlot.split(' - ');
+        // const updatedData = {
+        //     start_time,
+        //     end_time,
+        //     booking_date: selectedDate.toISOString().split('T')[0],
+        // };
+
         const updatedData = {
             start_time,
             end_time,
-            booking_date: selectedDate.toISOString().split('T')[0],
+            booking_date: selectedDate.toLocaleDateString('en-CA'), // Use local date formatting
         };
-
         // Update the current booking
         const result = await dispatch(updateBookingThunk(initialLesson.id, updatedData));
 

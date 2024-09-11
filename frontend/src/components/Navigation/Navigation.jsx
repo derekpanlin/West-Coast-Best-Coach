@@ -11,7 +11,13 @@ function Navigation() {
     <nav className="nav-container">
       <ul className="nav-list">
         <li className="nav-item">
-          <NavLink to="/" className="home-link">West Coast Best Coach</NavLink>
+          <NavLink to="/" className="home-link">
+            <img
+              src='/logo/West-Coast-Best-Coach-logo.png'
+              alt="West Coast Best Coach"
+              className="nav-logo"
+            />
+          </NavLink>
         </li>
         {user && (
           <li className="nav-item">

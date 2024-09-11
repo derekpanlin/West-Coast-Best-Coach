@@ -1,29 +1,27 @@
+// Simplified code without update feature
 import { useState, useEffect } from 'react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchAvailabilityThunk } from '../../redux/availability';
-import { createBookingThunk, updateBookingThunk, fetchBookingsThunk } from '../../redux/booking';
+import { createBookingThunk, fetchBookingsThunk } from '../../redux/booking';
 import { useModal } from '../../context/Modal';
 import { useNavigate } from 'react-router-dom';
 import './BookLessonModal.css';
 
-function BookLessonModal({ coach, initialLesson, isUpdate = false }) {
+function BookLessonModal({ coach }) {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const { closeModal } = useModal();
 
-    // Ensure correct date handling by treating the date as a string in "YYYY-MM-DD" format
-    const [selectedDate, setSelectedDate] = useState(initialLesson ? new Date(initialLesson.booking_date) : null);
+    const [selectedDate, setSelectedDate] = useState(null);
     const [availableTimes, setAvailableTimes] = useState([]);
-    const [selectedSlots, setSelectedSlots] = useState(
-        initialLesson ? [`${initialLesson.start_time} - ${initialLesson.end_time}`] : []
-    );
+    const [selectedSlots, setSelectedSlots] = useState([]);
     const [loading, setLoading] = useState(false);
     const [submitting, setSubmitting] = useState(false);
 
     const coachAvailability = useSelector(state => state.availability[coach.id] || []);
-    const formattedDate = selectedDate?.toISOString().split('T')[0];
+    const formattedDate = selectedDate?.toLocaleDateString('en-CA');
 
     const coachBookings = useSelector(state => {
         const bookingsByCoach = state.bookings.bookingsByDate[coach.id];
@@ -48,6 +46,9 @@ function BookLessonModal({ coach, initialLesson, isUpdate = false }) {
     useEffect(() => {
         if (selectedDate && coachAvailability.length > 0) {
             const dayOfWeek = selectedDate.toLocaleDateString('en-US', { weekday: 'long' });
+            // const isToday = new Date().toISOString().split('T')[0] === selectedDate.toISOString().split('T')[0]; // Check if today is selected
+            const isToday = new Date().toDateString() === selectedDate.toDateString();
+            const currentTime = new Date(); // Current time
 
             const filteredAvailability = coachAvailability.filter(
                 availability => availability.day_of_week === dayOfWeek
@@ -69,7 +70,8 @@ function BookLessonModal({ coach, initialLesson, isUpdate = false }) {
                                 formatTime(parseTime(booking.end_time)) === slotEnd
                         );
 
-                        if (!isBooked) {
+                        // If today, only include future time slots
+                        if (!isBooked && (!isToday || start > currentTime)) {
                             times.push(`${slotStart} - ${slotEnd}`);
                         }
 
@@ -82,13 +84,6 @@ function BookLessonModal({ coach, initialLesson, isUpdate = false }) {
             }
         }
     }, [coachAvailability, selectedDate, coachBookings]);
-
-    useEffect(() => {
-        // Clear selectedSlots when the date changes, unless we're updating an existing lesson
-        if (!isUpdate || !initialLesson || new Date(initialLesson.booking_date).toISOString().split('T')[0] !== formattedDate) {
-            setSelectedSlots([]);
-        }
-    }, [selectedDate, isUpdate, initialLesson, formattedDate]);
 
     const parseTime = (timeStr) => {
         const [hours, minutes] = timeStr.split(':');
@@ -113,7 +108,7 @@ function BookLessonModal({ coach, initialLesson, isUpdate = false }) {
         }
     };
 
-    const handleBookOrUpdateLesson = async () => {
+    const handleBookLesson = async () => {
         if (!selectedDate || selectedSlots.length === 0) {
             return;
         }
@@ -121,48 +116,31 @@ function BookLessonModal({ coach, initialLesson, isUpdate = false }) {
         setSubmitting(true);
 
         // Construct booking data
+        // const bookingData = {
+        //     coach_id: coach.id,
+        //     booking_date: selectedDate.toISOString().split('T')[0],
+        //     slots: selectedSlots.map(slot => {
+        //         const [start_time, end_time] = slot.split(' - ');
+        //         return { start_time, end_time, booking_date: selectedDate.toISOString().split('T')[0] };
+        //     })
+        // };
+
         const bookingData = {
             coach_id: coach.id,
-            booking_date: selectedDate.toISOString().split('T')[0],
+            booking_date: selectedDate.toLocaleDateString('en-CA'), // Format for yyyy-mm-dd in local time
             slots: selectedSlots.map(slot => {
                 const [start_time, end_time] = slot.split(' - ');
-                return {
-                    id: initialLesson?.id || null,  // Ensure the current lesson ID is being passed for updates
-                    start_time,
-                    end_time,
-                    booking_date: selectedDate.toISOString().split('T')[0],
-                };
+                return { start_time, end_time, booking_date: selectedDate.toLocaleDateString('en-CA') }; // Updated to local time
             })
         };
 
-        // For updating a lesson, ensure only one time slot can be selected
-        if (isUpdate && initialLesson) {
-            // Check that only one time slot has been selected
-            if (selectedSlots.length !== 1) {
-                alert('You can only update to one time slot.');
-                setSubmitting(false);
-                return;
-            }
-
-            // Update the current booking
-            const updatedData = bookingData.slots[0];  // Send only the selected slot for update
-            const result = await dispatch(updateBookingThunk(initialLesson.id, updatedData));  // Update the existing booking
-
-            if (!result.errors) {
-                closeModal();
-                navigate('/manage-lessons');
-            } else {
-                alert('Failed to update booking. Please try again.');
-            }
+        // Handle new booking creation
+        const result = await dispatch(createBookingThunk(bookingData));
+        if (!result.errors) {
+            closeModal();
+            navigate('/manage-lessons');
         } else {
-            // Handle new booking creation if not an update
-            const result = await dispatch(createBookingThunk(bookingData));
-            if (!result.errors) {
-                closeModal();
-                navigate('/manage-lessons');
-            } else {
-                alert('Failed to create booking. Please try again.');
-            }
+            alert('Failed to create booking. Please try again.');
         }
 
         setSubmitting(false);
@@ -170,7 +148,7 @@ function BookLessonModal({ coach, initialLesson, isUpdate = false }) {
 
     return (
         <div className="book-lesson-modal">
-            <h2>{isUpdate ? `Update Lesson with Coach ${coach.first_name}` : `Book a Lesson with Coach ${coach.first_name}`}</h2>
+            <h2>Book a Lesson with Coach {coach.first_name}</h2>
             <div className="modal-content">
                 <div className="calendar-section">
                     <h3>Choose a Date</h3>
@@ -213,10 +191,10 @@ function BookLessonModal({ coach, initialLesson, isUpdate = false }) {
             <div className="modal-actions">
                 <button
                     className="book-button"
-                    onClick={handleBookOrUpdateLesson}
+                    onClick={handleBookLesson}
                     disabled={submitting || selectedSlots.length === 0}
                 >
-                    {submitting ? 'Processing...' : isUpdate ? 'Update Lesson' : 'Book Lesson'}
+                    {submitting ? 'Processing...' : selectedSlots.length > 1 ? 'Book Lessons' : 'Book Lesson'}
                 </button>
                 <button className="cancel-button" onClick={closeModal} disabled={submitting}>
                     Cancel

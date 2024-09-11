@@ -90,6 +90,7 @@ function ManageLessonsPage() {
                                     <p><strong>Date:</strong> {lesson.booking_date}</p>
                                     <p><strong>Time:</strong> {lesson.start_time} - {lesson.end_time}</p>
                                     <p><strong>Location:</strong> {lesson.location}</p>
+                                    <p><strong>Price:</strong> ${lesson.coach.rate} / hr</p>
                                 </div>
                             </div>
                             <div className="lesson-actions">
@@ -99,7 +100,7 @@ function ManageLessonsPage() {
                         </div>
                     ))
                 ) : (
-                    <p>No upcoming lessons.</p>
+                    <p id='no-lessons-tag'>No upcoming lessons.</p>
                 )}
             </div>
 
@@ -119,12 +120,13 @@ function ManageLessonsPage() {
                                     <p><strong>Date:</strong> {lesson.booking_date}</p>
                                     <p><strong>Time:</strong> {lesson.start_time} - {lesson.end_time}</p>
                                     <p><strong>Location:</strong> {lesson.location}</p>
+                                    <p><strong>Paid:</strong> ${lesson.coach.rate}</p>
                                 </div>
                             </div>
                         </div>
                     ))
                 ) : (
-                    <p>No past lessons.</p>
+                    <p id='no-lessons-tag'>No past lessons.</p>
                 )}
             </div>
         </div>
