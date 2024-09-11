@@ -1,5 +1,4 @@
-/* Navigation.css */
-
+/* Navigation container styling */
 .nav-container {
   width: 100%;
   background-color: #3b8ddf;
@@ -33,16 +32,19 @@
   font-family: 'Inter', sans-serif;
 }
 
-.home-link:hover {
-  color: #265486;
+
+
+.nav-logo {
+  height: 50px;
+  width: auto;
+  display: block;
+  transition: filter 0.3s ease;
 }
 
-.home-link:active {
-  transform: scale(0.96);
+.home-link:hover .nav-logo {
+  filter: brightness(0.8);
 }
 
-
-/* Find a Coach button styles */
 .find-a-coach-button {
   background-color: #265486;
   color: white;
@@ -52,7 +54,6 @@
   font-weight: bold;
   transition: background-color 0.3s ease;
   font-family: 'Arial', sans-serif;
-  /* Override with a different font */
 }
 
 .find-a-coach-button:hover {
@@ -75,7 +76,6 @@
   border-radius: 8px;
   transition: background-color 0.3s ease, color 0.3s ease;
 }
-
 
 /* Profile dropdown styles */
 .profile-dropdown {
