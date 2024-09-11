@@ -1,5 +1,5 @@
 // Simplified code without update feature
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { useDispatch, useSelector } from 'react-redux';
@@ -21,7 +21,9 @@ function BookLessonModal({ coach }) {
     const [submitting, setSubmitting] = useState(false);
 
     const coachAvailability = useSelector(state => state.availability[coach.id] || []);
-    const formattedDate = selectedDate?.toLocaleDateString('en-CA');
+    // const formattedDate = selectedDate?.toLocaleDateString('en-CA');
+    const formattedDate = useMemo(() => selectedDate ? selectedDate.toLocaleDateString('en-CA') : null, [selectedDate])
+
 
     const coachBookings = useSelector(state => {
         const bookingsByCoach = state.bookings.bookingsByDate[coach.id];

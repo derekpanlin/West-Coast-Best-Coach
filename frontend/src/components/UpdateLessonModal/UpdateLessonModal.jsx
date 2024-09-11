@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { useDispatch, useSelector } from 'react-redux';
@@ -20,8 +20,9 @@ function UpdateLessonModal({ coach, initialLesson }) {
     const [submitting, setSubmitting] = useState(false);
 
     const coachAvailability = useSelector(state => state.availability[coach.id] || []);
-    // const formattedDate = selectedDate.toISOString().split('T')[0];  // Use normalized date string
-    const formattedDate = selectedDate.toLocaleDateString('en-CA');  // Format: yyyy-mm-dd in local time
+    // const formattedDate = selectedDate.toLocaleDateString('en-CA');  // Format: yyyy-mm-dd in local time
+    // Memoize formattedDate to avoid unnecessary re-renders
+    const formattedDate = useMemo(() => selectedDate.toLocaleDateString('en-CA'), [selectedDate]);
 
     const coachBookings = useSelector(state => {
         const bookingsByCoach = state.bookings.bookingsByDate[coach.id];
@@ -52,10 +53,7 @@ function UpdateLessonModal({ coach, initialLesson }) {
             const filteredAvailability = coachAvailability.filter(
                 availability => availability.day_of_week === dayOfWeek
             );
-            console.log('Day of Week:', dayOfWeek);
-            console.log('Selected Date:', selectedDate);
-            console.log('Is Today:', isToday);
-            console.log('Coach Availability:', coachAvailability);
+
 
             if (filteredAvailability.length > 0) {
                 const times = [];
@@ -116,11 +114,6 @@ function UpdateLessonModal({ coach, initialLesson }) {
 
         // Construct updated booking data
         const [start_time, end_time] = selectedSlot.split(' - ');
-        // const updatedData = {
-        //     start_time,
-        //     end_time,
-        //     booking_date: selectedDate.toISOString().split('T')[0],
-        // };
 
         const updatedData = {
             start_time,
