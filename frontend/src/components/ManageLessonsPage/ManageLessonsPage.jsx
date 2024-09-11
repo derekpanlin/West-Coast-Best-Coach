@@ -90,7 +90,7 @@ function ManageLessonsPage() {
                                     <p><strong>Date:</strong> {lesson.booking_date}</p>
                                     <p><strong>Time:</strong> {lesson.start_time} - {lesson.end_time}</p>
                                     <p><strong>Location:</strong> {lesson.location}</p>
-                                    <p><strong>Price:</strong> $ {lesson.coach.rate} / hr</p>
+                                    <p><strong>Price:</strong> ${lesson.coach.rate} / hr</p>
                                 </div>
                             </div>
                             <div className="lesson-actions">

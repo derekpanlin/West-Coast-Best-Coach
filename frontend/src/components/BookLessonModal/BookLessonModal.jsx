@@ -21,7 +21,8 @@ function BookLessonModal({ coach }) {
     const [submitting, setSubmitting] = useState(false);
 
     const coachAvailability = useSelector(state => state.availability[coach.id] || []);
-    const formattedDate = selectedDate?.toISOString().split('T')[0];
+    // const formattedDate = selectedDate?.toISOString().split('T')[0];
+    const formattedDate = selectedDate?.toLocaleDateString('en-CA'); // Format: yyyy-mm-dd
 
     const coachBookings = useSelector(state => {
         const bookingsByCoach = state.bookings.bookingsByDate[coach.id];
@@ -46,12 +47,20 @@ function BookLessonModal({ coach }) {
     useEffect(() => {
         if (selectedDate && coachAvailability.length > 0) {
             const dayOfWeek = selectedDate.toLocaleDateString('en-US', { weekday: 'long' });
-            const isToday = new Date().toISOString().split('T')[0] === selectedDate.toISOString().split('T')[0]; // Check if today is selected
+            // const isToday = new Date().toISOString().split('T')[0] === selectedDate.toISOString().split('T')[0]; // Check if today is selected
+            const isToday = new Date().toDateString() === selectedDate.toDateString();
             const currentTime = new Date(); // Current time
+
+            console.log('Day of Week:', dayOfWeek);
+            console.log('Selected Date:', selectedDate);
+            console.log('Is Today:', isToday);
+            console.log('Coach Availability:', coachAvailability);
 
             const filteredAvailability = coachAvailability.filter(
                 availability => availability.day_of_week === dayOfWeek
             );
+
+            console.log('Filtered Availability:', filteredAvailability);
 
             if (filteredAvailability.length > 0) {
                 const times = [];
@@ -63,17 +72,15 @@ function BookLessonModal({ coach }) {
                         const slotStart = formatTime(start);
                         const slotEnd = formatTime(addOneHour(start));
 
-                        // Only include time slots that are in the future for today
-                        if (!isToday || start > currentTime) {
-                            const isBooked = coachBookings.some(
-                                booking =>
-                                    formatTime(parseTime(booking.start_time)) === slotStart &&
-                                    formatTime(parseTime(booking.end_time)) === slotEnd
-                            );
+                        const isBooked = coachBookings.some(
+                            booking =>
+                                formatTime(parseTime(booking.start_time)) === slotStart &&
+                                formatTime(parseTime(booking.end_time)) === slotEnd
+                        );
 
-                            if (!isBooked) {
-                                times.push(`${slotStart} - ${slotEnd}`);
-                            }
+                        // If today, only include future time slots
+                        if (!isBooked && (!isToday || start > currentTime)) {
+                            times.push(`${slotStart} - ${slotEnd}`);
                         }
 
                         start = addOneHour(start);
@@ -117,12 +124,21 @@ function BookLessonModal({ coach }) {
         setSubmitting(true);
 
         // Construct booking data
+        // const bookingData = {
+        //     coach_id: coach.id,
+        //     booking_date: selectedDate.toISOString().split('T')[0],
+        //     slots: selectedSlots.map(slot => {
+        //         const [start_time, end_time] = slot.split(' - ');
+        //         return { start_time, end_time, booking_date: selectedDate.toISOString().split('T')[0] };
+        //     })
+        // };
+
         const bookingData = {
             coach_id: coach.id,
-            booking_date: selectedDate.toISOString().split('T')[0],
+            booking_date: selectedDate.toLocaleDateString('en-CA'), // Format for yyyy-mm-dd in local time
             slots: selectedSlots.map(slot => {
                 const [start_time, end_time] = slot.split(' - ');
-                return { start_time, end_time, booking_date: selectedDate.toISOString().split('T')[0] };
+                return { start_time, end_time, booking_date: selectedDate.toLocaleDateString('en-CA') }; // Updated to local time
             })
         };
 

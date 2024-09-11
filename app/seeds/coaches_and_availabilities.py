@@ -97,6 +97,24 @@ def seed_coaches_and_availabilities():
                 {"day_of_week": "Sunday", "start_time": "08:00", "end_time": "12:00"},
             ]
         },
+        {
+            "first_name": "Ovidiu",
+            "last_name": "Fritsch",
+            "rate": 90,
+            "bio": "Hey everyone, my name's Ovidiu, Ovi for short, and I've been playing tennis for 20 years but coaching for 5. I'm originally from Romania, but grew up in Canada. I played on the national club team at UC Davis and was one of the top players there.  In my free time, I enjoy running, coding, and hanging out with friends. Please reach out and see how I can help you transform your tennis! ",
+            "location": "San Francisco",
+            "image_url": "/images/coach_profile_image/Coach-Ovidiu.jpeg",
+            "experience_years": 5,
+            "availabilities": [
+                {"day_of_week": "Monday", "start_time": "08:00", "end_time": "12:00"},
+                {"day_of_week": "Tuesday", "start_time": "08:00", "end_time": "12:00"},
+                {"day_of_week": "Wednesday", "start_time": "08:00", "end_time": "12:00"},
+                {"day_of_week": "Thursday", "start_time": "08:00", "end_time": "12:00"},
+                {"day_of_week": "Friday", "start_time": "08:00", "end_time": "12:00"},
+                {"day_of_week": "Saturday", "start_time": "08:00", "end_time": "12:00"},
+                {"day_of_week": "Sunday", "start_time": "08:00", "end_time": "12:00"},
+            ]
+        },
         
     ]
 
