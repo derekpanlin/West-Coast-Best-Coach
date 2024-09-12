@@ -19,6 +19,11 @@ def create_review():
     coach = Coach.query.get(coach_id)
     if not coach:
         return {'errors': 'Coach not found'}, 404
+    
+    # Validation to prevent reviewing same coach twice
+    existing_review = Review.query.filter_by(user_id=current_user.id, coach_id=coach_id).first()
+    if existing_review:
+        return {'errors': "You have already reviewed this coach"}, 400
 
     # Validate rating
     rating = data.get('rating')
