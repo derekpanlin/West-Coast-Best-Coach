@@ -16,7 +16,6 @@ function CoachProfile() {
     const coach = useSelector(state => state.coach.coaches[coachId]);
 
     useEffect(() => {
-        // console.log('Coach ID from useParams:', coachId);
         dispatch(fetchCoachById(coachId));
         dispatch(fetchAvailabilityThunk(coachId));
         return () => {
