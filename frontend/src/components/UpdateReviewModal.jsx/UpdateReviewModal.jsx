@@ -1,59 +1,55 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faStar } from '@fortawesome/free-solid-svg-icons';
-import { createReviewThunk } from '../../redux/review';
+import { updateReviewThunk } from '../../redux/review';
 import { useModal } from '../../context/Modal';
-import { useNavigate } from 'react-router-dom';
-import './ReviewModal.css';
+import '../ReviewModal/ReviewModal.css';
 
-function ReviewModal({ coach }) {
-    const [stars, setStars] = useState(0); // Star rating
-    const [review, setReview] = useState(''); // Review comment
+function UpdateReviewModal({ review }) {
+    const [stars, setStars] = useState(review.rating); // Set the current rating
+    const [comment, setComment] = useState(review.comment); // Set the current comment
     const [buttonDisabled, setButtonDisabled] = useState(true); // Button state
     const dispatch = useDispatch();
-    const navigate = useNavigate();
     const { closeModal } = useModal();
+
+    useEffect(() => {
+        // Enable button if the comment is at least 10 characters and a rating is selected
+        setButtonDisabled(comment.length < 10 || stars < 1);
+    }, [comment, stars]);
 
     const handleStarClick = (index) => {
         setStars(index + 1); // Set the star rating
-        updateButtonState(review, index + 1);
     };
 
     const handleTextAreaChange = (e) => {
-        setReview(e.target.value);
-        updateButtonState(e.target.value, stars);
-    };
-
-    const updateButtonState = (text, rating) => {
-        // Enable button if the review is at least 10 characters and a rating is selected
-        setButtonDisabled(text.length < 10 || rating < 1);
+        setComment(e.target.value);
     };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        const reviewData = {
-            coach_id: coach.id,
+        const updatedReviewData = {
             rating: stars,
-            comment: review,
+            comment,
         };
 
-        const result = await dispatch(createReviewThunk(reviewData));
+        const result = await dispatch(updateReviewThunk(review.id, updatedReviewData));
 
         if (result) {
             closeModal(); // Close the modal after successful submission
         }
     };
 
+    // Create an array for the 5 stars
     const starArray = Array.from({ length: 5 }, (_, index) => index);
 
     return (
         <div className="review-modal">
-            <h2>Review Coach {coach.first_name}</h2>
+            <h2>Update Review for {review.coach.first_name}</h2>
             <textarea
-                placeholder="Leave your review here..."
-                value={review}
+                placeholder="Update your review..."
+                value={comment}
                 onChange={handleTextAreaChange}
             />
             <div className="star-rating">
@@ -68,14 +64,15 @@ function ReviewModal({ coach }) {
                 <span>{stars} Stars</span>
             </div>
             <button
+                id='review-update-btn'
                 onClick={handleSubmit}
                 disabled={buttonDisabled}
             >
-                Submit Review
+                Update Review
             </button>
             <button onClick={closeModal}>Cancel</button>
         </div>
     );
 }
 
-export default ReviewModal;
+export default UpdateReviewModal;

@@ -12,8 +12,8 @@ def seed_coaches_and_availabilities():
             "image_url": "/images/coach_profile_image/Coach-Derek-Lin.jpeg",
             "experience_years": 16,
             "availabilities": [
-                {"day_of_week": "Monday", "start_time": "08:00", "end_time": "10:00"},
-                {"day_of_week": "Tuesday", "start_time": "08:00", "end_time": "10:00"}
+                {"day_of_week": "Monday", "start_time": "08:00", "end_time": "12:00"},
+                {"day_of_week": "Tuesday", "start_time": "08:00", "end_time": "12:00"}
             ]
         },
         {
@@ -29,8 +29,8 @@ def seed_coaches_and_availabilities():
                 {"day_of_week": "Tuesday", "start_time": "16:00", "end_time": "20:00"},
                 {"day_of_week": "Wednesday", "start_time": "16:00", "end_time": "20:00"},
                 {"day_of_week": "Thursday", "start_time": "16:00", "end_time": "20:00"},
-                {"day_of_week": "Friday", "start_time": "20:00", "end_time": "22:00"},
-                {"day_of_week": "Saturday", "start_time": "20:00", "end_time": "22:00"},
+                {"day_of_week": "Friday", "start_time": "19:00", "end_time": "21:00"},
+                {"day_of_week": "Saturday", "start_time": "19:00", "end_time": "21:00"},
             ]
         },
         {
@@ -56,9 +56,9 @@ def seed_coaches_and_availabilities():
             "image_url": "/images/coach_profile_image/Coach-Nishikori.jpeg",
             "experience_years": 15,
             "availabilities": [
-                {"day_of_week": "Monday", "start_time": "16:00", "end_time": "22:00"},
-                {"day_of_week": "Tuesday", "start_time": "16:00", "end_time": "22:00"},
-                {"day_of_week": "Wednesday", "start_time": "16:00", "end_time": "22:00"}
+                {"day_of_week": "Monday", "start_time": "16:00", "end_time": "20:00"},
+                {"day_of_week": "Tuesday", "start_time": "16:00", "end_time": "20:00"},
+                {"day_of_week": "Wednesday", "start_time": "16:00", "end_time": "20:00"}
             ]
         },
         {
@@ -70,9 +70,6 @@ def seed_coaches_and_availabilities():
             "image_url": "/images/coach_profile_image/Coach-Carlos-Alcaraz.jpeg",
             "experience_years": 10,
             "availabilities": [
-                {"day_of_week": "Monday", "start_time": "08:00", "end_time": "12:00"},
-                {"day_of_week": "Tuesday", "start_time": "08:00", "end_time": "12:00"},
-                {"day_of_week": "Wednesday", "start_time": "08:00", "end_time": "12:00"},
                 {"day_of_week": "Thursday", "start_time": "08:00", "end_time": "12:00"},
                 {"day_of_week": "Friday", "start_time": "08:00", "end_time": "12:00"},
                 {"day_of_week": "Saturday", "start_time": "08:00", "end_time": "12:00"},
@@ -92,16 +89,13 @@ def seed_coaches_and_availabilities():
                 {"day_of_week": "Tuesday", "start_time": "08:00", "end_time": "12:00"},
                 {"day_of_week": "Wednesday", "start_time": "08:00", "end_time": "12:00"},
                 {"day_of_week": "Thursday", "start_time": "08:00", "end_time": "12:00"},
-                {"day_of_week": "Friday", "start_time": "08:00", "end_time": "12:00"},
-                {"day_of_week": "Saturday", "start_time": "08:00", "end_time": "12:00"},
-                {"day_of_week": "Sunday", "start_time": "08:00", "end_time": "12:00"},
             ]
         },
         {
             "first_name": "Ovidiu",
             "last_name": "Fritsch",
             "rate": 90,
-            "bio": "Hey everyone, my name's Ovidiu, Ovi for short, and I've been playing tennis for 20 years but coaching for 5. I'm originally from Romania, but grew up in Canada. I played on the national club team at UC Davis and was one of the top players there.  In my free time, I enjoy running, coding, and hanging out with friends. Please reach out and see how I can help you transform your tennis! ",
+            "bio": "What’s up! I’m Ovi, quite possibly the greatest tennis player of all time who can also run a marathon in under 3 hours! I owe it all to my Romanian and Canadian roots, in particular to the traditional romanian creamy spinach dish my grandmother used to make. How else would you explain these guns 💪 🥦? When i’m not ripping forehand winners from 5 feet behind the baseline or lapping peasants on the track, you can find me reading in bed, coding, walking around, or chilling on the couch with a blue gatorade and a nice home cooked meal, recovering from the day’s activity.",
             "location": "San Francisco",
             "image_url": "/images/coach_profile_image/Coach-Ovidiu.jpeg",
             "experience_years": 5,

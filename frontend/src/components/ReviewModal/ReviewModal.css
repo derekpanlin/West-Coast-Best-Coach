@@ -1,0 +1,94 @@
+.review-modal {
+    background-color: #fff;
+    padding: 20px;
+    /* Applies rounding to all corners */
+    width: 100%;
+    max-width: 500px;
+    /* Limits the width */
+    margin: 0 auto;
+    text-align: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    /* Ensures content doesn't overflow */
+}
+
+.review-modal h2 {
+    font-size: 24px;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+.review-modal textarea {
+    width: calc(100% - 20px);
+    height: 100px;
+    padding: 10px;
+    margin-bottom: 20px;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+    font-size: 14px;
+    resize: none;
+    outline: none;
+    transition: border-color 0.2s ease-in-out;
+    box-sizing: border-box;
+}
+
+.review-modal textarea:focus {
+    border-color: #007bff;
+}
+
+.star-rating {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.star-rating .star-empty {
+    color: #ddd;
+    font-size: 30px;
+    cursor: pointer;
+}
+
+.star-rating .star-filled {
+    color: #ffc107;
+    font-size: 30px;
+    cursor: pointer;
+}
+
+.star-rating span {
+    font-size: 16px;
+    color: #333;
+}
+
+.review-modal button {
+    padding: 10px 20px;
+    font-size: 16px;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-right: 10px;
+    transition: background-color 0.3s ease;
+}
+
+.review-modal button[disabled] {
+    background-color: #ccc;
+    cursor: not-allowed;
+}
+
+.review-modal button:not([disabled]) {
+    background-color: #007bff;
+}
+
+.review-modal button:not([disabled]):hover {
+    background-color: #0056b3;
+}
+
+.review-modal button:last-child {
+    background-color: #dc3545;
+}
+
+.review-modal button:last-child:hover {
+    background-color: #c82333;
+}

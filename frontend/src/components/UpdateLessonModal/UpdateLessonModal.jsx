@@ -88,7 +88,7 @@ function UpdateLessonModal({ coach, initialLesson }) {
                 setAvailableTimes([]);
             }
         }
-    }, [coachAvailability, selectedDate, coachBookings]);
+    }, [coachAvailability, selectedDate, coachBookings, formattedDate, initialLesson.booking_date]);
 
     const parseTime = (timeStr) => {
         const [hours, minutes] = timeStr.split(':');

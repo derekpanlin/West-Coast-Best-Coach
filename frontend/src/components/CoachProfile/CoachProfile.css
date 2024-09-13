@@ -101,3 +101,82 @@
     color: #555;
     line-height: 1.5;
 }
+
+.coach-reviews-summary {
+    margin-top: 20px;
+    font-size: 16px;
+    color: #333;
+}
+
+.coach-reviews-summary p {
+    margin: 5px 0;
+}
+
+.coach-reviews {
+    margin-top: 20px;
+    padding-top: 10px;
+    border-top: 1px solid #e0e0e0;
+}
+
+.coach-reviews h3 {
+    font-size: 20px;
+    margin-bottom: 10px;
+}
+
+.review-item {
+    padding: 10px 0;
+    border-bottom: 1px solid #e0e0e0;
+    margin-bottom: 10px;
+    font-size: 14px;
+}
+
+.review-item p {
+    margin: 5px 0;
+}
+
+.review-item strong {
+    color: #333;
+}
+
+.review-date {
+    font-size: 12px;
+    color: #888;
+}
+
+.review-actions {
+    display: flex;
+    gap: 10px;
+}
+
+.review-actions button {
+    padding: 5px 10px;
+    font-size: 14px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.review-actions button:first-child {
+    background-color: #007bff;
+    /* Blue for update */
+    color: white;
+}
+
+.review-actions button:first-child:hover {
+    background-color: #0056b3;
+}
+
+.review-actions button:last-child {
+    background-color: #dc3545;
+    /* Red for delete */
+    color: white;
+}
+
+.review-actions button:last-child:hover {
+    background-color: #c82333;
+}
+
+#review-update-btn {
+    background-color: orange;
+}
