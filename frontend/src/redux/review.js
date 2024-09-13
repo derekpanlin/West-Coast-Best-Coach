@@ -121,7 +121,35 @@ const reviewReducer = (state = initialState, action) => {
             });
             return { ...state, userReviews: userReviewsState }
         case CLEAR_REVIEWS:
-            return {}
+            return { ...state, coachReviews: {} }
+        case CREATE_REVIEW:
+            return {
+                ...state,
+                coachReviews: {
+                    ...state.coachReviews,
+                    [action.payload.id]: action.payload
+                },
+                userReviews: {
+                    ...state.userReviews,
+                    [action.payload.id]: action.payload
+                }
+            }
+        case UPDATE_REVIEW:
+            return {
+                ...state,
+                coachReviews: { ...state.coachReviews, [action.payload.id]: action.payload },
+                userReviews: { ...state.userReviews, [action.payload.id]: action.payload }
+            };
+        case DELETE_REVIEW:
+            const newCoachReviews = { ...state.coachReviews };
+            const newUserReviews = { ...state.userReviews };
+            delete newCoachReviews[action.payload];
+            delete newUserReviews[action.payload];
+            return {
+                ...state,
+                coachReviews: newCoachReviews,
+                userReviews: newUserReviews
+            };
         default:
             return state;
     }
