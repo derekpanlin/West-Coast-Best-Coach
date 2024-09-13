@@ -64,6 +64,7 @@ function UpdateReviewModal({ review }) {
                 <span>{stars} Stars</span>
             </div>
             <button
+                id='review-update-btn'
                 onClick={handleSubmit}
                 disabled={buttonDisabled}
             >

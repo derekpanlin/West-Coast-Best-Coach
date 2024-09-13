@@ -176,3 +176,7 @@
 .review-actions button:last-child:hover {
     background-color: #c82333;
 }
+
+#review-update-btn {
+    background-color: orange;
+}

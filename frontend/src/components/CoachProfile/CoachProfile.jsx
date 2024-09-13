@@ -135,11 +135,11 @@ function CoachProfile() {
                                     <div key={review.id} className="review-item">
                                         <p><strong>{review.user.username}:</strong> {review.comment}</p>
                                         <p><strong>Rating:</strong> {review.rating} ★</p>
-                                        <p className="review-date"><em>{new Date(review.created_at).toLocaleDateString('en-US', { year: 'numeric', month: 'long' })}</em></p>
+                                        <p className="review-date"><em>Posted on {new Date(review.created_at).toLocaleDateString('en-US', { year: 'numeric', month: 'long' })}</em></p>
 
-                                        {currentUser && currentUser.id === review.user_id && ( // If the review belongs to the logged-in user
+                                        {currentUser && currentUser.id === review.user_id && (
                                             <div className="review-actions">
-                                                <button onClick={() => handleUpdateReview(review)}>Update</button>
+                                                <button id='review-update-btn' onClick={() => handleUpdateReview(review)}>Update</button>
                                                 <button onClick={() => handleDeleteReview(review.id)}>Delete</button>
                                             </div>
                                         )}
