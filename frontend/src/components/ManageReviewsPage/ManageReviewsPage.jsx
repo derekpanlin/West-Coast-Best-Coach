@@ -48,7 +48,7 @@ function ManageReviewsPage() {
                             <p><strong>Rating:</strong> {review.rating} ★</p>
                             <p><strong>Comment:</strong> {review.comment}</p>
                             <p className="review-date">
-                                <em>{new Date(review.created_at).toLocaleDateString('en-US', { year: 'numeric', month: 'long' })}</em>
+                                <em>Reviewed on {new Date(review.created_at).toLocaleDateString('en-US', { year: 'numeric', month: 'long' })}</em>
                             </p>
                             <div className="review-actions">
                                 <button
