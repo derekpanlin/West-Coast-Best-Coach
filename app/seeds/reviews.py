@@ -37,7 +37,7 @@ def seed_reviews():
             "user_id": 3,
             "coach_id": 5,
             "rating": 1,
-            "comment": "He only spoke Japanese to me. I don't speak Japanese...",
+            "comment": "He only spoke Spanish to me. I don't speak Spanish...",
         },
         {
             "user_id": 2,

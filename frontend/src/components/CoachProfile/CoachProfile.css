@@ -101,3 +101,44 @@
     color: #555;
     line-height: 1.5;
 }
+
+.coach-reviews-summary {
+    margin-top: 20px;
+    font-size: 16px;
+    color: #333;
+}
+
+.coach-reviews-summary p {
+    margin: 5px 0;
+}
+
+.coach-reviews {
+    margin-top: 20px;
+    padding-top: 10px;
+    border-top: 1px solid #e0e0e0;
+}
+
+.coach-reviews h3 {
+    font-size: 20px;
+    margin-bottom: 10px;
+}
+
+.review-item {
+    padding: 10px 0;
+    border-bottom: 1px solid #e0e0e0;
+    margin-bottom: 10px;
+    font-size: 14px;
+}
+
+.review-item p {
+    margin: 5px 0;
+}
+
+.review-item strong {
+    color: #333;
+}
+
+.review-date {
+    font-size: 12px;
+    color: #888;
+}

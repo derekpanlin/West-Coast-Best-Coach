@@ -1,0 +1,38 @@
+.review-modal {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+}
+
+.review-modal h2 {
+    margin-bottom: 20px;
+}
+
+.review-modal textarea {
+    width: 100%;
+    height: 100px;
+    margin-bottom: 20px;
+}
+
+.star-rating {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.star-filled {
+    color: gold;
+    cursor: pointer;
+}
+
+.star-empty {
+    color: lightgray;
+    cursor: pointer;
+}
+
+button {
+    padding: 10px 20px;
+    margin: 10px;
+    cursor: pointer;
+}
