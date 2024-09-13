@@ -1,0 +1,42 @@
+.manage-reviews-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.reviews-list {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.review-item {
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    padding: 15px;
+    border: 1px solid #ddd;
+}
+
+.review-item h3 {
+    margin: 0 0 10px;
+    color: #333;
+}
+
+.review-item p {
+    margin: 5px 0;
+    color: #555;
+}
+
+.review-item .review-date {
+    color: #999;
+    font-size: 0.9em;
+}
+
+#review-update-btn {
+    background-color: orange;
+}
+
+#review-update-btn:hover {
+    background-color: rgb(205, 144, 2);
+    /* A brighter orange */
+}

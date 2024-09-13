@@ -4,7 +4,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faStar } from '@fortawesome/free-solid-svg-icons';
 import { createReviewThunk } from '../../redux/review';
 import { useModal } from '../../context/Modal';
-import { useNavigate } from 'react-router-dom';
 import './ReviewModal.css';
 
 function ReviewModal({ coach }) {
@@ -12,7 +11,6 @@ function ReviewModal({ coach }) {
     const [review, setReview] = useState(''); // Review comment
     const [buttonDisabled, setButtonDisabled] = useState(true); // Button state
     const dispatch = useDispatch();
-    const navigate = useNavigate();
     const { closeModal } = useModal();
 
     const handleStarClick = (index) => {
