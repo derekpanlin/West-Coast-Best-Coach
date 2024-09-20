@@ -46,13 +46,17 @@
 
 .star-rating .star-empty {
     color: #ddd;
-    font-size: 30px;
+    /* Gray for unselected */
+    font-size: 35px;
+    /* Adjust size if needed */
     cursor: pointer;
 }
 
 .star-rating .star-filled {
-    color: #ffc107;
-    font-size: 30px;
+    color: #51c56c;
+    /* Green for selected */
+    font-size: 35px;
+    /* Adjust size if needed */
     cursor: pointer;
 }
 

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faStar } from '@fortawesome/free-solid-svg-icons';
+import { PiTennisBall } from "react-icons/pi";
+import { BiSolidTennisBall } from "react-icons/bi";
 import { updateReviewThunk } from '../../redux/review';
 import { useModal } from '../../context/Modal';
 import '../ReviewModal/ReviewModal.css';
@@ -37,7 +37,7 @@ function UpdateReviewModal({ review }) {
         const result = await dispatch(updateReviewThunk(review.id, updatedReviewData));
 
         if (result) {
-            closeModal(); // Close the modal after successful submission
+            closeModal();
         }
     };
 
@@ -54,12 +54,13 @@ function UpdateReviewModal({ review }) {
             />
             <div className="star-rating">
                 {starArray.map((index) => (
-                    <FontAwesomeIcon
-                        key={index}
-                        icon={faStar}
-                        className={index < stars ? 'star-filled' : 'star-empty'}
-                        onClick={() => handleStarClick(index)}
-                    />
+                    <span key={index} onClick={() => handleStarClick(index)}>
+                        {index < stars ? (
+                            <BiSolidTennisBall className="star-filled" />
+                        ) : (
+                            <PiTennisBall className="star-empty" />
+                        )}
+                    </span>
                 ))}
                 <span>{stars} Stars</span>
             </div>

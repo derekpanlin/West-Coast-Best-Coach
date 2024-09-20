@@ -33,10 +33,9 @@
 }
 
 #review-update-btn {
-    background-color: orange;
+    background-color: #18ae5e;
 }
 
 #review-update-btn:hover {
-    background-color: rgb(205, 144, 2);
-    /* A brighter orange */
+    background-color: #258e54;
 }

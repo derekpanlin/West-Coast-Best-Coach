@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faStar } from '@fortawesome/free-solid-svg-icons';
+import { PiTennisBall } from "react-icons/pi";
+import { BiSolidTennisBall } from "react-icons/bi";
 import { createReviewThunk } from '../../redux/review';
 import { useModal } from '../../context/Modal';
 import './ReviewModal.css';
@@ -13,21 +13,24 @@ function ReviewModal({ coach }) {
     const dispatch = useDispatch();
     const { closeModal } = useModal();
 
+    // Handle when a user clicks a star (or tennis ball in this case)
     const handleStarClick = (index) => {
-        setStars(index + 1); // Set the star rating
+        setStars(index + 1); // Set the star rating based on index clicked
         updateButtonState(review, index + 1);
     };
 
+    // Handle text area change
     const handleTextAreaChange = (e) => {
         setReview(e.target.value);
         updateButtonState(e.target.value, stars);
     };
 
+    // Update button state (whether it's enabled or disabled)
     const updateButtonState = (text, rating) => {
-        // Enable button if the review is at least 10 characters and a rating is selected
         setButtonDisabled(text.length < 10 || rating < 1);
     };
 
+    // Handle form submission
     const handleSubmit = async (e) => {
         e.preventDefault();
 
@@ -40,10 +43,11 @@ function ReviewModal({ coach }) {
         const result = await dispatch(createReviewThunk(reviewData));
 
         if (result) {
-            closeModal(); // Close the modal after successful submission
+            closeModal(); // Close modal after successful submission
         }
     };
 
+    // Render the star (tennis ball) icons
     const starArray = Array.from({ length: 5 }, (_, index) => index);
 
     return (
@@ -56,12 +60,13 @@ function ReviewModal({ coach }) {
             />
             <div className="star-rating">
                 {starArray.map((index) => (
-                    <FontAwesomeIcon
-                        key={index}
-                        icon={faStar}
-                        className={index < stars ? 'star-filled' : 'star-empty'}
-                        onClick={() => handleStarClick(index)}
-                    />
+                    <span key={index} onClick={() => handleStarClick(index)}>
+                        {index < stars ? (
+                            <BiSolidTennisBall className="star-filled" />
+                        ) : (
+                            <PiTennisBall className="star-empty" />
+                        )}
+                    </span>
                 ))}
                 <span>{stars} Stars</span>
             </div>
