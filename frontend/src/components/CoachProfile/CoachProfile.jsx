@@ -118,7 +118,7 @@ function CoachProfile() {
                             <strong>
                                 {totalReviews} {totalReviews === 1 ? 'Review' : 'Reviews'}
                                 {totalReviews > 0 && (
-                                    <> · ★ {averageRating} </>
+                                    <> · 🎾 {averageRating} </>
                                 )}
                             </strong>
                         </p>
@@ -134,7 +134,7 @@ function CoachProfile() {
                                 .map(review => (
                                     <div key={review.id} className="review-item">
                                         <p><strong>{review.user.username}:</strong> {review.comment}</p>
-                                        <p><strong>Rating:</strong> {review.rating} ★</p>
+                                        <p><strong>Rating:</strong> {review.rating} 🎾</p>
                                         <p className="review-date"><em>Posted on {new Date(review.created_at).toLocaleDateString('en-US', { year: 'numeric', month: 'long' })}</em></p>
 
                                         {currentUser && currentUser.id === review.user_id && (

@@ -45,7 +45,7 @@ function ManageReviewsPage() {
                     Object.values(userReviews).map((review) => (
                         <div key={review.id} className="review-item">
                             <h3>Review for Coach {review.coach.first_name} {review.coach.last_name}</h3>
-                            <p><strong>Rating:</strong> {review.rating} ★</p>
+                            <p><strong>Rating:</strong> {review.rating} 🎾</p>
                             <p><strong>Comment:</strong> {review.comment}</p>
                             <p className="review-date">
                                 <em>Reviewed on {new Date(review.created_at).toLocaleDateString('en-US', { year: 'numeric', month: 'long' })}</em>
