@@ -36,7 +36,7 @@ def seed_coaches_and_availabilities():
         {
             "first_name": "Roger",
             "last_name": "Federer",
-            "rate": 100000000,
+            "rate": 1000000,
             "bio": "Hi, I’m Roger Federer, a professional tennis player with over two decades of experience competing at the highest level. Throughout my career, I’ve won 20 Grand Slam singles titles and have held the No. 1 spot in the ATP rankings for a record 310 weeks. My passion for tennis goes beyond competition—I love sharing my knowledge and expertise with others. Whether you're just starting out or looking to refine your skills, I’m excited to help you elevate your game on the court. I also speak Swiss, German, and French and can coach in those languages if you prefer.",
             "location": "San Francisco",
             "image_url": "/images/coach_profile_image/Coach-Roger-Federer.jpeg",
