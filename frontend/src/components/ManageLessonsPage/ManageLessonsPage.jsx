@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { getBookingsThunk, deleteBookingThunk } from '../../redux/booking';
 import { useModal } from '../../context/Modal';
+import { deleteBookingThunk, getBookingsThunk } from '../../redux/booking';
 import UpdateLessonModal from '../UpdateLessonModal/UpdateLessonModal';
 import './ManageLessonsPage.css';
 
@@ -90,7 +90,7 @@ function ManageLessonsPage() {
                                     <p><strong>Date:</strong> {lesson.booking_date}</p>
                                     <p><strong>Time:</strong> {lesson.start_time} - {lesson.end_time}</p>
                                     <p><strong>Location:</strong> {lesson.location}</p>
-                                    <p><strong>Price:</strong> ${lesson.coach.rate} / hr</p>
+                                    <p><strong>Price:</strong> ${Number(lesson.coach.rate).toLocaleString()} / hr</p>
                                 </div>
                             </div>
                             <div className="lesson-actions">
